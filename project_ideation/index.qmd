@@ -1,3 +1,7 @@
 ---
 title: Project Ideation
+description: Why do we care about Squat Hero?
 ---
+
+The inspiration for this project originated from an idea Jason had in high school while helping middle school students learn proper squat technique. The initial concept was to design a lightweight exoskeleton that would use motors to apply gentle resistance, guiding users through the ideal squat motion. Unlike typical exoskeletons on the market, this design would prioritize being lightweight, affordable, and non-intrusive. Instead of directly assisting the user with the motion, it would act as a guide, helping them develop proper form without excessive reliance on external support.
+
