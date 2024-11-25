@@ -1,7 +1,20 @@
 ---
 title: "Squat Hero"
+image: images/logo.jpeg
+about:
+    template: jolla
+    links:
+    -   icon: linkedin
+        text: LinkedIn (Jason)
+        href: https://www.linkedin.com/in/jason-bowman-9b488b23b/
+    -   icon: linkedin
+        text: LinkedIn (Ket)
+        href: https://www.linkedin.com/in/ket-hollingsworth/
+    -   icon: globe
+        text: Jason's Personal Website
+        href: https://jasonbowman55.github.io/Blog-Site/
+
 ---
 
-This is a Quarto website.
+The final project for Micro Ps Jason and Ket
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
