@@ -5,15 +5,35 @@ website:
   title: "Squat Hero"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - text: Home
+        href: index.qmd
+      - text: Project Ideation
+        href: project_ideation/index.qmd
+      - text: Project Logistics
+        href: project_logistics/index.qmd
+      - text: Mechanical Design
+        href: mechanical_design/index.qmd
+      - text: Hardware
+        menu:
+          - text: Hardware Overview
+            href: hardware/index.qmd
+          - text: Hardware Selection
+            href: hardware/hardware_selection/index.qmd
+      - text: Software
+        menu:
+          - text: Software Overview
+            href: software/index.qmd
+          - text: MCU Design
+            href: software/mcu/index.qmd
+          - text: FPGA Design
+            href: software/fpga/index.qmd
+      - text: Result
+        href: result/index.qmd
+      - text: About
+        href: about/index.qmd
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-
-
-
