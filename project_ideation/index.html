@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Why do we care about Squat Hero?">
 
 <title>Project Ideation – Squat Hero</title>
 <style>
@@ -104,21 +105,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../mechanical_design/index.html"> 
 <span class="menu-text">Mechanical Design</span></a>
   </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hardware" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Hardware</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-hardware">    
-        <li>
-    <a class="dropdown-item" href="../hardware/index.html">
- <span class="dropdown-text">Hardware Overview</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="../hardware/index.html"> 
+<span class="menu-text">Hardware</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../hardware/hardware_selection/index.html">
- <span class="dropdown-text">Hardware Selection</span></a>
-  </li>  
-    </ul>
-  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Software</span>
@@ -168,6 +158,11 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="title">Project Ideation</h1>
 </div>
 
+<div>
+  <div class="description">
+    Why do we care about Squat Hero?
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -182,6 +177,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>The inspiration for this project came from an idea Jason had in high school while helping middle school students learn proper squat technique. The initial concept was to design a lightweight exoskeleton using motors to apply gentle resistance, guiding users through the ideal squat motion. Unlike traditional exoskeletons, this design would focus on being lightweight, affordable, and non-intrusive. Instead of doing the work for the user, it would act as a guide, helping them develop proper form without overly relying on external assistance. This approach would provide accessible and new-age fitness technology to a broad audience, including personal trainers working to enhance client performance, physical therapists helping patients recover from injuries, athletes refining their technique, and even beginners looking to build confidence and prevent injuries. By prioritizing simplicity and affordability, the design aims to maximize training time and allow the quantification of the squat form to be used for feedback training.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/squat_form.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Generalization of squat form, <a href="https://www.mirrorfriendly.com/fitness/how-to-increase-your-strength-part-4-a-the-squat-technique/">image source</a></figcaption>
+</figure>
+</div>
+<p>This project is an essential stepping stone in our knowledge and product development, aiming to ultimately provide a useful final product to a client. In the scope of Micro Ps, we are integrating IMU functionality, similar to what will be found in the final product, with an FPGA-driving VGA to create a game interface, further details of which can be found under the software section of the website. We chose to use IMUs for position decomposition due to their lightweight and simple-to-use interface, which eliminates the need for extensive mechanical design and complex user calibration associated with hardware-centric potentiometer decoding. Future implementations may include IMU-controlled feedback motors for selected leg joints, enhancing the overall functionality and usability of the system.</p>
 
 
 
@@ -278,7 +281,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
