@@ -14,11 +14,7 @@ website:
       - text: Mechanical Design
         href: mechanical_design/index.qmd
       - text: Hardware
-        menu:
-          - text: Hardware Overview
-            href: hardware/index.qmd
-          - text: Hardware Selection
-            href: hardware/hardware_selection/index.qmd
+        href: hardware/index.qmd
       - text: Software
         menu:
           - text: Software Overview

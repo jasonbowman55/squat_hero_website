@@ -1,3 +1,9 @@
 ---
 title: Project Logistics
 ---
+
+### Bill Of Materials (BOM)
+![Done using Google Sheets, [Link to BOM](https://docs.google.com/spreadsheets/d/1z4BVQB70VOeRmZT-7SRyXOWO4Vpe0yPSbxfFBbsptvs/edit?usp=sharing)](images/bom.jpeg)
+
+### Project Timeline
+![Done using Trello.com with BigPicture extension](images/ghantt.jpeg)

@@ -1,0 +1,41 @@
+---
+title: Inventors
+---
+
+### Jason Bowman
+Engineering major at Harvey Mudd College (grad 25), with experience in embedded systems, control systems, DSP, mechanical design.
+
+<p style="text-align: center; display: flex; align-items: center; justify-content: center;">
+  <img src="images/headshot.jpeg" alt="Headshot" style="width: 200px; height: 200px; border-radius: 50%; vertical-align: middle; margin: 0 10px;">
+</p>
+
+*Micro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of future many individual projects involving embedded systems and digital electronics that I plan on doing*
+
+<div style="text-align: center;">
+  <a href="https://www.linkedin.com/in/jasonbbowman/" target="_blank" style="text-decoration: none;">
+    <button style="margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+      🔗 LinkedIn
+    </button>
+  </a>
+  <a href="https://jasonbowman55.github.io/Blog-Site/" target="_blank" style="text-decoration: none;">
+    <button style="margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+      👤 Jason's Personal Website
+    </button>
+  </a>
+</div>
+
+### Ket Hollingsworth
+I AM KET AT HMC AND STUDY THINGS
+
+<p style="text-align: center; display: flex; align-items: center; justify-content: center;">
+  <img src="images/headshot.jpeg" alt="Headshot" style="width: 200px; height: 200px; border-radius: 50%; vertical-align: middle; margin: 0 10px;">
+</p>
+
+I TAKE MICRO PS BECAUSE ITS SOOOOO COOOOL
+
+<div style="text-align: center;">
+  <a href="https://www.linkedin.com/in/ket-hollingsworth/" target="_blank" style="text-decoration: none;">
+    <button style="margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+      🔗 LinkedIn
+    </button>
+  </a>

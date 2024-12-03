@@ -104,21 +104,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../mechanical_design/index.html"> 
 <span class="menu-text">Mechanical Design</span></a>
   </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hardware" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Hardware</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-hardware">    
-        <li>
-    <a class="dropdown-item" href="../hardware/index.html">
- <span class="dropdown-text">Hardware Overview</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="../hardware/index.html"> 
+<span class="menu-text">Hardware</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="../hardware/hardware_selection/index.html">
- <span class="dropdown-text">Hardware Selection</span></a>
-  </li>  
-    </ul>
-  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Software</span>
@@ -157,8 +146,15 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#bill-of-materials-bom" id="toc-bill-of-materials-bom" class="nav-link active" data-scroll-target="#bill-of-materials-bom">Bill Of Materials (BOM)</a></li>
+  <li><a href="#project-timeline" id="toc-project-timeline" class="nav-link" data-scroll-target="#project-timeline">Project Timeline</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -182,8 +178,26 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="bill-of-materials-bom" class="level3">
+<h3 class="anchored" data-anchor-id="bill-of-materials-bom">Bill Of Materials (BOM)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/bom.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Done using Google Sheets, <a href="https://docs.google.com/spreadsheets/d/1z4BVQB70VOeRmZT-7SRyXOWO4Vpe0yPSbxfFBbsptvs/edit?usp=sharing">Link to BOM</a></figcaption>
+</figure>
+</div>
+</section>
+<section id="project-timeline" class="level3">
+<h3 class="anchored" data-anchor-id="project-timeline">Project Timeline</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ghantt.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Done using Trello.com with BigPicture extension</figcaption>
+</figure>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -278,7 +292,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

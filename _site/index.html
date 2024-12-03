@@ -103,21 +103,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./mechanical_design/index.html"> 
 <span class="menu-text">Mechanical Design</span></a>
   </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-hardware" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Hardware</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-hardware">    
-        <li>
-    <a class="dropdown-item" href="./hardware/index.html">
- <span class="dropdown-text">Hardware Overview</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="./hardware/index.html"> 
+<span class="menu-text">Hardware</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./hardware/hardware_selection/index.html">
- <span class="dropdown-text">Hardware Selection</span></a>
-  </li>  
-    </ul>
-  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-software" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Software</span>
@@ -168,23 +157,20 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
   </div>
 </header><main class="content" id="quarto-document-content">
-<p>The final project for Micro Ps Jason and Ket</p>
+<p>Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.</p>
+<p>This project was focused on implamenting FPGA and MCU functionalities in order to measure joint angles using IMUs and display a side profile stick figure to a screen via vga cable. Tracking body motion is the first step to many kinematic solutions, and will hopefully be the first steps towards a long desired project further explained in the project ideation tab.</p>
 
 
 </main> 
   <hr class="about-sep">
    <div class="about-links">
-  <a href="https://www.linkedin.com/in/jason-bowman-9b488b23b/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn (Jason)</span>
+  <a href="/inventors/" class="about-link" rel="" target="">
+    <i class="bi bi-person-circle"></i>
+     <span class="about-link-text">Meet The Inventors!</span>
   </a>
-  <a href="https://www.linkedin.com/in/ket-hollingsworth/" class="about-link" rel="" target="">
-    <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">LinkedIn (Ket)</span>
-  </a>
-  <a href="https://jasonbowman55.github.io/Blog-Site/" class="about-link" rel="" target="">
-    <i class="bi bi-globe"></i>
-     <span class="about-link-text">Jason’s Personal Website</span>
+  <a href="https://github.com/KetAveryH/Squat-Hero.git" class="about-link" rel="" target="">
+    <i class="bi bi-github"></i>
+     <span class="about-link-text">GitHub</span>
   </a>
 </div>
 </div>
@@ -274,7 +260,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

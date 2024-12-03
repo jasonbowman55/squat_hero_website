@@ -1,5 +1,4 @@
 ---
 title: "About"
 ---
-
-About this site
+[HMC E155 "Micro Ps" course website](https://hmc-e155.github.io/)

@@ -1,0 +1,9 @@
+[
+  {
+    "listing": "/software/index.html",
+    "items": [
+      "/software/mcu/index.html",
+      "/software/fpga/index.html"
+    ]
+  }
+]

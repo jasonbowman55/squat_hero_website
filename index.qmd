@@ -4,17 +4,14 @@ image: images/logo.jpeg
 about:
     template: jolla
     links:
-    -   icon: linkedin
-        text: LinkedIn (Jason)
-        href: https://www.linkedin.com/in/jason-bowman-9b488b23b/
-    -   icon: linkedin
-        text: LinkedIn (Ket)
-        href: https://www.linkedin.com/in/ket-hollingsworth/
-    -   icon: globe
-        text: Jason's Personal Website
-        href: https://jasonbowman55.github.io/Blog-Site/
-
+    -   icon: person-circle
+        text: Meet The Inventors!
+        href: /inventors/
+    -   icon: github
+        text: GitHub
+        href: https://github.com/KetAveryH/Squat-Hero.git
 ---
 
-The final project for Micro Ps Jason and Ket
+Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.
 
+This project was focused on implamenting FPGA and MCU functionalities in order to measure joint angles using IMUs and display a side profile stick figure to a screen via vga cable. Tracking body motion is the first step to many kinematic solutions, and will hopefully be the first steps towards a long desired project further explained in the project ideation tab.
