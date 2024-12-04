@@ -1,3 +1,69 @@
 ---
 title: MCU Design
 ---
+The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via SPI. On this page, I am focusing on the software side of this system. However, the schematic below will give insight into the hardware implementation of this software's overall embedded system.
+
+# LSM6DSO32 IMUs
+Why we chose these and what the goal is
+
+## Addressing (I2C)
+How to change the address on these things and what that helps with
+![IMU [source link](https://learn.adafruit.com/lsm6dsox-and-ism330dhc-6-dof-imu)](images/imu_back.jpeg)
+
+## Configuring IMU Accelerometer
+How and what we need to configure on this (CTRL_XL)
+
+
+----------------------------------------------------------
+
+# STM34L432KC MCU Peripherals & Programming Structure
+- intro to what I will be talking about (talk about why using that funciton, and how it looks in code)
+- also talk about the main coding structure diagram, with GAME LOGIC as a black box
+- Talk about what peripherals I am going to talk about later
+
+## GPIO
+initializing GPIO pins, and what pins can I use with I2C
+
+## I2C1 & I2C3
+how I am going to use I2C
+
+### Initialization
+what is needed to initialize and why
+
+### Writing With I2C
+how to write
+
+### Reading With I2C
+how to read
+
+### Simulation
+Simulation of the I2C protocol and all of the specific data transfers
+
+## SPI
+why am I using
+
+### Configuration
+
+
+### Read/Write With SPI
+By nature with SPI, whenever you send data you receive some too
+
+### Simulation
+
+
+----------------------------------------------------------
+
+# Game Logic
+Talk about the GAME LOGIC block by itself and how that works
+- Put the picture that I drew up
+
+## Reading Accel Data
+Not how reading with I2C works, but what am I reading (reference the read function that I wrote above)
+
+## Angle Decode
+- How do I decode the angles
+- Talk about taking care of wierd data
+
+## Decode The Positions
+How do I do this
+- talk about the wierdness with the origin being in the top left and not bottom left

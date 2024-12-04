@@ -60,6 +60,69 @@
     "href": "mechanical_design/index.html",
     "title": "Mechanical Design",
     "section": "",
-    "text": "The mechanical design for this project was minimal, given the scope of the class. The only thing that needed to be designed was the housing units for each IMU, which allow for the IMUs to be strapped to the body using velcro straps, hold the IMU in a predefined direction, be comfortable for the wearer, and allow access to the STEMMA quick connect terminals. The final result of the IMU mounts is seen below.\n\n\n\nFinal IMU Mounts\n\n\nThe final product features Squat Hero labeling, labels telling where to put it on the body, and an indication of the configured chip address for clarity. This helps minimize confusion.\nEven though this is an embedded systems class, the prototype timeline can be seen below as a tribute to the engineering process. Significant changes from the original design include: - features to make tolerancing fit the IMU better - smoothing out the edges for user comfort and - sufficient labeling to help reduce any confusion\n INSERT PROTOTYPE TIMELINE PICTURES!"
+    "text": "The mechanical design for this project was minimal, given the scope of the class. The only thing that needed to be designed was the housing units for each IMU, which allow for the IMUs to be strapped to the body using velcro straps, hold the IMU in a predefined direction, be comfortable for the wearer, and allow access to the STEMMA quick connect terminals. The final result of the IMU mounts is seen below.\n FINAL DRAWINGS AND CAD MODELS + WHAT IT LOOKS LIKE WHEN WORN ON SOMEONE\nThe final product features Squat Hero labeling, labels telling where to put it on the body, and an indication of the configured chip address for clarity. This helps minimize confusion.\nEven though this is an embedded systems class, the prototype timeline can be seen below as a tribute to the engineering process. Significant changes from the original design include: - features to make tolerancing fit the IMU better - smoothing out the edges for user comfort and - sufficient labeling to help reduce any confusion\n INSERT PROTOTYPE TIMELINE PICTURES!"
+  },
+  {
+    "objectID": "software/mcu/index.html",
+    "href": "software/mcu/index.html",
+    "title": "MCU Design",
+    "section": "",
+    "text": "The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via SPI. On this page, I am focusing on the software side of this system. However, the schematic below will give insight into the hardware implementation of this software’s overall embedded system."
+  },
+  {
+    "objectID": "software/mcu/index.html#addressing-i2c",
+    "href": "software/mcu/index.html#addressing-i2c",
+    "title": "MCU Design",
+    "section": "Addressing (I2C)",
+    "text": "Addressing (I2C)\nHow to change the address on these things and what that helps with"
+  },
+  {
+    "objectID": "software/mcu/index.html#configuring-imu-accelerometer",
+    "href": "software/mcu/index.html#configuring-imu-accelerometer",
+    "title": "MCU Design",
+    "section": "Configuring IMU Accelerometer",
+    "text": "Configuring IMU Accelerometer\nHow and what we need to configure on this (CTRL_XL)"
+  },
+  {
+    "objectID": "software/mcu/index.html#gpio",
+    "href": "software/mcu/index.html#gpio",
+    "title": "MCU Design",
+    "section": "GPIO",
+    "text": "GPIO\ninitializing GPIO pins, and what pins can I use with I2C"
+  },
+  {
+    "objectID": "software/mcu/index.html#i2c1-i2c3",
+    "href": "software/mcu/index.html#i2c1-i2c3",
+    "title": "MCU Design",
+    "section": "I2C1 & I2C3",
+    "text": "I2C1 & I2C3\nhow I am going to use I2C\n\nInitialization\nwhat is needed to initialize and why\n\n\nWriting With I2C\nhow to write\n\n\nReading With I2C\nhow to read\n\n\nSimulation\nSimulation of the I2C protocol and all of the specific data transfers"
+  },
+  {
+    "objectID": "software/mcu/index.html#spi",
+    "href": "software/mcu/index.html#spi",
+    "title": "MCU Design",
+    "section": "SPI",
+    "text": "SPI\nwhy am I using\n\nConfiguration\n\n\nRead/Write With SPI\nBy nature with SPI, whenever you send data you receive some too\n\n\nSimulation"
+  },
+  {
+    "objectID": "software/mcu/index.html#reading-accel-data",
+    "href": "software/mcu/index.html#reading-accel-data",
+    "title": "MCU Design",
+    "section": "Reading Accel Data",
+    "text": "Reading Accel Data\nNot how reading with I2C works, but what am I reading (reference the read function that I wrote above)"
+  },
+  {
+    "objectID": "software/mcu/index.html#angle-decode",
+    "href": "software/mcu/index.html#angle-decode",
+    "title": "MCU Design",
+    "section": "Angle Decode",
+    "text": "Angle Decode\n\nHow do I decode the angles\nTalk about taking care of wierd data"
+  },
+  {
+    "objectID": "software/mcu/index.html#decode-the-positions",
+    "href": "software/mcu/index.html#decode-the-positions",
+    "title": "MCU Design",
+    "section": "Decode The Positions",
+    "text": "Decode The Positions\nHow do I do this - talk about the wierdness with the origin being in the top left and not bottom left"
   }
 ]

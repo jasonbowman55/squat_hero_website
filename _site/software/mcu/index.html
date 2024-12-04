@@ -146,8 +146,41 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lsm6dso32-imus" id="toc-lsm6dso32-imus" class="nav-link active" data-scroll-target="#lsm6dso32-imus">LSM6DSO32 IMUs</a>
+  <ul class="collapse">
+  <li><a href="#addressing-i2c" id="toc-addressing-i2c" class="nav-link" data-scroll-target="#addressing-i2c">Addressing (I2C)</a></li>
+  <li><a href="#configuring-imu-accelerometer" id="toc-configuring-imu-accelerometer" class="nav-link" data-scroll-target="#configuring-imu-accelerometer">Configuring IMU Accelerometer</a></li>
+  </ul></li>
+  <li><a href="#stm34l432kc-mcu-peripherals-programming-structure" id="toc-stm34l432kc-mcu-peripherals-programming-structure" class="nav-link" data-scroll-target="#stm34l432kc-mcu-peripherals-programming-structure">STM34L432KC MCU Peripherals &amp; Programming Structure</a>
+  <ul class="collapse">
+  <li><a href="#gpio" id="toc-gpio" class="nav-link" data-scroll-target="#gpio">GPIO</a></li>
+  <li><a href="#i2c1-i2c3" id="toc-i2c1-i2c3" class="nav-link" data-scroll-target="#i2c1-i2c3">I2C1 &amp; I2C3</a>
+  <ul class="collapse">
+  <li><a href="#initialization" id="toc-initialization" class="nav-link" data-scroll-target="#initialization">Initialization</a></li>
+  <li><a href="#writing-with-i2c" id="toc-writing-with-i2c" class="nav-link" data-scroll-target="#writing-with-i2c">Writing With I2C</a></li>
+  <li><a href="#reading-with-i2c" id="toc-reading-with-i2c" class="nav-link" data-scroll-target="#reading-with-i2c">Reading With I2C</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
+  </ul></li>
+  <li><a href="#spi" id="toc-spi" class="nav-link" data-scroll-target="#spi">SPI</a>
+  <ul class="collapse">
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#readwrite-with-spi" id="toc-readwrite-with-spi" class="nav-link" data-scroll-target="#readwrite-with-spi">Read/Write With SPI</a></li>
+  <li><a href="#simulation-1" id="toc-simulation-1" class="nav-link" data-scroll-target="#simulation-1">Simulation</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#game-logic" id="toc-game-logic" class="nav-link" data-scroll-target="#game-logic">Game Logic</a>
+  <ul class="collapse">
+  <li><a href="#reading-accel-data" id="toc-reading-accel-data" class="nav-link" data-scroll-target="#reading-accel-data">Reading Accel Data</a></li>
+  <li><a href="#angle-decode" id="toc-angle-decode" class="nav-link" data-scroll-target="#angle-decode">Angle Decode</a></li>
+  <li><a href="#decode-the-positions" id="toc-decode-the-positions" class="nav-link" data-scroll-target="#decode-the-positions">Decode The Positions</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -171,8 +204,88 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via SPI. On this page, I am focusing on the software side of this system. However, the schematic below will give insight into the hardware implementation of this software’s overall embedded system.</p>
+<section id="lsm6dso32-imus" class="level1">
+<h1>LSM6DSO32 IMUs</h1>
+<p>Why we chose these and what the goal is</p>
+<section id="addressing-i2c" class="level2">
+<h2 class="anchored" data-anchor-id="addressing-i2c">Addressing (I2C)</h2>
+<p>How to change the address on these things and what that helps with <img src="images/imu_back.jpeg" class="img-fluid" alt="IMU source link"></p>
+</section>
+<section id="configuring-imu-accelerometer" class="level2">
+<h2 class="anchored" data-anchor-id="configuring-imu-accelerometer">Configuring IMU Accelerometer</h2>
+<p>How and what we need to configure on this (CTRL_XL)</p>
+<hr>
+</section>
+</section>
+<section id="stm34l432kc-mcu-peripherals-programming-structure" class="level1">
+<h1>STM34L432KC MCU Peripherals &amp; Programming Structure</h1>
+<ul>
+<li>intro to what I will be talking about (talk about why using that funciton, and how it looks in code)</li>
+<li>also talk about the main coding structure diagram, with GAME LOGIC as a black box</li>
+<li>Talk about what peripherals I am going to talk about later</li>
+</ul>
+<section id="gpio" class="level2">
+<h2 class="anchored" data-anchor-id="gpio">GPIO</h2>
+<p>initializing GPIO pins, and what pins can I use with I2C</p>
+</section>
+<section id="i2c1-i2c3" class="level2">
+<h2 class="anchored" data-anchor-id="i2c1-i2c3">I2C1 &amp; I2C3</h2>
+<p>how I am going to use I2C</p>
+<section id="initialization" class="level3">
+<h3 class="anchored" data-anchor-id="initialization">Initialization</h3>
+<p>what is needed to initialize and why</p>
+</section>
+<section id="writing-with-i2c" class="level3">
+<h3 class="anchored" data-anchor-id="writing-with-i2c">Writing With I2C</h3>
+<p>how to write</p>
+</section>
+<section id="reading-with-i2c" class="level3">
+<h3 class="anchored" data-anchor-id="reading-with-i2c">Reading With I2C</h3>
+<p>how to read</p>
+</section>
+<section id="simulation" class="level3">
+<h3 class="anchored" data-anchor-id="simulation">Simulation</h3>
+<p>Simulation of the I2C protocol and all of the specific data transfers</p>
+</section>
+</section>
+<section id="spi" class="level2">
+<h2 class="anchored" data-anchor-id="spi">SPI</h2>
+<p>why am I using</p>
+<section id="configuration" class="level3">
+<h3 class="anchored" data-anchor-id="configuration">Configuration</h3>
+</section>
+<section id="readwrite-with-spi" class="level3">
+<h3 class="anchored" data-anchor-id="readwrite-with-spi">Read/Write With SPI</h3>
+<p>By nature with SPI, whenever you send data you receive some too</p>
+</section>
+<section id="simulation-1" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-1">Simulation</h3>
+<hr>
+</section>
+</section>
+</section>
+<section id="game-logic" class="level1">
+<h1>Game Logic</h1>
+<p>Talk about the GAME LOGIC block by itself and how that works - Put the picture that I drew up</p>
+<section id="reading-accel-data" class="level2">
+<h2 class="anchored" data-anchor-id="reading-accel-data">Reading Accel Data</h2>
+<p>Not how reading with I2C works, but what am I reading (reference the read function that I wrote above)</p>
+</section>
+<section id="angle-decode" class="level2">
+<h2 class="anchored" data-anchor-id="angle-decode">Angle Decode</h2>
+<ul>
+<li>How do I decode the angles</li>
+<li>Talk about taking care of wierd data</li>
+</ul>
+</section>
+<section id="decode-the-positions" class="level2">
+<h2 class="anchored" data-anchor-id="decode-the-positions">Decode The Positions</h2>
+<p>How do I do this - talk about the wierdness with the origin being in the top left and not bottom left</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -267,7 +380,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
