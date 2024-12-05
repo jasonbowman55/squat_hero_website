@@ -1,5 +1,61 @@
 [
   {
+    "objectID": "project_logistics/index.html",
+    "href": "project_logistics/index.html",
+    "title": "Project Logistics",
+    "section": "",
+    "text": "Bill Of Materials (BOM)\n\n\n\nDone using Google Sheets, Link to BOM\n\n\n\n\nProject Timeline\n\n\n\nDone using Trello.com with BigPicture extension"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "HMC E155 “Micro Ps” course website"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Squat Hero",
+    "section": "",
+    "text": "Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.\nThis project was focused on implamenting FPGA and MCU functionalities in order to measure joint angles using IMUs and display a side profile stick figure to a screen via vga cable. Tracking body motion is the first step to many kinematic solutions, and will hopefully be the first steps towards a long desired project further explained in the project ideation tab."
+  },
+  {
+    "objectID": "mechanical_design/index.html",
+    "href": "mechanical_design/index.html",
+    "title": "Mechanical Design",
+    "section": "",
+    "text": "The mechanical design for this project was minimal, given the scope of the class. The only thing that needed to be designed was the housing units for each IMU, which allow for the IMUs to be strapped to the body using velcro straps, hold the IMU in a predefined direction, be comfortable for the wearer, and allow access to the STEMMA quick connect terminals. The final result of the IMU mounts is seen below.\n FINAL DRAWINGS AND CAD MODELS + WHAT IT LOOKS LIKE WHEN WORN ON SOMEONE\nThe final product features Squat Hero labeling, labels telling where to put it on the body, and an indication of the configured chip address for clarity. This helps minimize confusion.\nEven though this is an embedded systems class, the prototype timeline can be seen below as a tribute to the engineering process. Significant changes from the original design include: - features to make tolerancing fit the IMU better - smoothing out the edges for user comfort and - sufficient labeling to help reduce any confusion\n INSERT PROTOTYPE TIMELINE PICTURES!"
+  },
+  {
+    "objectID": "result/index.html",
+    "href": "result/index.html",
+    "title": "Result",
+    "section": "",
+    "text": "THIS WILL HAVE A VIDEO OF THE FINAL PRODUCT AND MAYBE A SKIT FROM DEMO DAY"
+  },
+  {
+    "objectID": "hardware/index.html",
+    "href": "hardware/index.html",
+    "title": "Hardware",
+    "section": "",
+    "text": "THIS WILL HAVE AN OVERVIEW OF THE WHOLE CIRCUIT SCHEMATIC OF THE HARDWARE, INCLUDING FUNCTIONALITIES OF CONNECTIONS.\n\nPARAGRAPH DESCRIBING THE OVERALL GOAL OF THE HARDWARE, IE: WHAT DOES IT ENABLE US TO DO\nPICTURE OF THE CIRCUIT SCHEMATIC\nDESCRIPTION OF THE POWER SPECIFICS\nDESCRIPTION OF THE MCU HARDWARE / I2C, IE: WHAT PINS DID I USE AND WHY\nDESCIPTION OF THE SPI CONNECTIONS BETWEEN MCU AND FPGA\nVGA HARDWARE\nPICTURE OF THE FINAL HARDWARE IN PERSON"
+  },
+  {
+    "objectID": "inventors/index.html",
+    "href": "inventors/index.html",
+    "title": "Inventors",
+    "section": "",
+    "text": "Jason Bowman\nEngineering major at Harvey Mudd College (grad 25), with experience in embedded systems, control systems, DSP, mechanical design.\n\n\n\nMicro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of future many individual projects involving embedded systems and digital electronics that I plan on doing\n\n  🔗 LinkedIn     👤 Jason’s Personal Website  \n\n\n\nKet Hollingsworth\nI AM KET AT HMC AND STUDY THINGS\n\n\n\nI TAKE MICRO PS BECAUSE ITS SOOOOO COOOOL\n\n  🔗 LinkedIn"
+  },
+  {
+    "objectID": "software/index.html",
+    "href": "software/index.html",
+    "title": "Software",
+    "section": "",
+    "text": "THIS WILL HAVE AN OVERVIEW OF WHAT THIS SECTION TALKS ABOUT AND MAYBE WHY WE DO WHAT THINGS ON THE MCU/FPGA RESPECTIVELY.\nTHINGS WE DID ON THE MCU - READ DATA WITH I2C - CONVERTED TO USABLE DATA - GENERATED A STATUS BIT TO INDICATE FULL SQUAT - SEND DATA WITH SPI\nTHINGS WE DID ON THE FPGA - READ DATA FROM SPI - DECODE DATA AND GENERATE LINES READABLE THROUGH VGA - DISPLAY VIA VGA CONNECTOR\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMCU Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFPGA Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "software/mcu/index.html",
     "href": "software/mcu/index.html",
     "title": "MCU Design",
@@ -42,67 +98,11 @@
     "text": "SPI\nwhy am I using\n\nConfiguration\n\n\nRead/Write With SPI\nBy nature with SPI, whenever you send data you receive some too\n\n\nSimulation"
   },
   {
-    "objectID": "software/mcu/index.html#reading-accel-data",
-    "href": "software/mcu/index.html#reading-accel-data",
+    "objectID": "software/mcu/index.html#reading-and-decoding",
+    "href": "software/mcu/index.html#reading-and-decoding",
     "title": "MCU Design",
-    "section": "Reading Accel Data",
-    "text": "Reading Accel Data"
-  },
-  {
-    "objectID": "software/mcu/index.html#angle-decode",
-    "href": "software/mcu/index.html#angle-decode",
-    "title": "MCU Design",
-    "section": "Angle Decode",
-    "text": "Angle Decode\n\nHow do I decode the angles\nTalk about taking care of wierd data"
-  },
-  {
-    "objectID": "software/mcu/index.html#decode-the-positions",
-    "href": "software/mcu/index.html#decode-the-positions",
-    "title": "MCU Design",
-    "section": "Decode The Positions",
-    "text": "Decode The Positions\nHow do I do this - talk about the wierdness with the origin being in the top left and not bottom left"
-  },
-  {
-    "objectID": "project_logistics/index.html",
-    "href": "project_logistics/index.html",
-    "title": "Project Logistics",
-    "section": "",
-    "text": "Bill Of Materials (BOM)\n\n\n\nDone using Google Sheets, Link to BOM\n\n\n\n\nProject Timeline\n\n\n\nDone using Trello.com with BigPicture extension"
-  },
-  {
-    "objectID": "mechanical_design/index.html",
-    "href": "mechanical_design/index.html",
-    "title": "Mechanical Design",
-    "section": "",
-    "text": "The mechanical design for this project was minimal, given the scope of the class. The only thing that needed to be designed was the housing units for each IMU, which allow for the IMUs to be strapped to the body using velcro straps, hold the IMU in a predefined direction, be comfortable for the wearer, and allow access to the STEMMA quick connect terminals. The final result of the IMU mounts is seen below.\n FINAL DRAWINGS AND CAD MODELS + WHAT IT LOOKS LIKE WHEN WORN ON SOMEONE\nThe final product features Squat Hero labeling, labels telling where to put it on the body, and an indication of the configured chip address for clarity. This helps minimize confusion.\nEven though this is an embedded systems class, the prototype timeline can be seen below as a tribute to the engineering process. Significant changes from the original design include: - features to make tolerancing fit the IMU better - smoothing out the edges for user comfort and - sufficient labeling to help reduce any confusion\n INSERT PROTOTYPE TIMELINE PICTURES!"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Squat Hero",
-    "section": "",
-    "text": "Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.\nThis project was focused on implamenting FPGA and MCU functionalities in order to measure joint angles using IMUs and display a side profile stick figure to a screen via vga cable. Tracking body motion is the first step to many kinematic solutions, and will hopefully be the first steps towards a long desired project further explained in the project ideation tab."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "HMC E155 “Micro Ps” course website"
-  },
-  {
-    "objectID": "hardware/index.html",
-    "href": "hardware/index.html",
-    "title": "Hardware",
-    "section": "",
-    "text": "THIS WILL HAVE AN OVERVIEW OF THE WHOLE CIRCUIT SCHEMATIC OF THE HARDWARE, INCLUDING FUNCTIONALITIES OF CONNECTIONS.\n\nPARAGRAPH DESCRIBING THE OVERALL GOAL OF THE HARDWARE, IE: WHAT DOES IT ENABLE US TO DO\nPICTURE OF THE CIRCUIT SCHEMATIC\nDESCRIPTION OF THE POWER SPECIFICS\nDESCRIPTION OF THE MCU HARDWARE / I2C, IE: WHAT PINS DID I USE AND WHY\nDESCIPTION OF THE SPI CONNECTIONS BETWEEN MCU AND FPGA\nVGA HARDWARE\nPICTURE OF THE FINAL HARDWARE IN PERSON"
-  },
-  {
-    "objectID": "inventors/index.html",
-    "href": "inventors/index.html",
-    "title": "Inventors",
-    "section": "",
-    "text": "Jason Bowman\nEngineering major at Harvey Mudd College (grad 25), with experience in embedded systems, control systems, DSP, mechanical design.\n\n\n\nMicro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of future many individual projects involving embedded systems and digital electronics that I plan on doing\n\n  🔗 LinkedIn     👤 Jason’s Personal Website  \n\n\n\nKet Hollingsworth\nI AM KET AT HMC AND STUDY THINGS\n\n\n\nI TAKE MICRO PS BECAUSE ITS SOOOOO COOOOL\n\n  🔗 LinkedIn"
+    "section": "Reading and Decoding",
+    "text": "Reading and Decoding\nAs seen in"
   },
   {
     "objectID": "project_ideation/index.html",
@@ -110,26 +110,5 @@
     "title": "Project Ideation",
     "section": "",
     "text": "The inspiration for this project came from an idea Jason had in high school while helping middle school students learn proper squat technique. The initial concept was to design a lightweight exoskeleton using motors to apply gentle resistance, guiding users through the ideal squat motion. Unlike traditional exoskeletons, this design would focus on being lightweight, affordable, and non-intrusive. Instead of doing the work for the user, it would act as a guide, helping them develop proper form without overly relying on external assistance. This approach would provide accessible and new-age fitness technology to a broad audience, including personal trainers working to enhance client performance, physical therapists helping patients recover from injuries, athletes refining their technique, and even beginners looking to build confidence and prevent injuries. By prioritizing simplicity and affordability, the design aims to maximize training time and allow the quantification of the squat form to be used for feedback training.\n\n\n\nGeneralization of squat form, image source\n\n\nThis project is an essential stepping stone in our knowledge and product development, aiming to ultimately provide a useful final product to a client. In the scope of Micro Ps, we are integrating IMU functionality, similar to what will be found in the final product, with an FPGA-driving VGA to create a game interface, further details of which can be found under the software section of the website. We chose to use IMUs for position decomposition due to their lightweight and simple-to-use interface, which eliminates the need for extensive mechanical design and complex user calibration associated with hardware-centric potentiometer decoding. Future implementations may include IMU-controlled feedback motors for selected leg joints, enhancing the overall functionality and usability of the system."
-  },
-  {
-    "objectID": "result/index.html",
-    "href": "result/index.html",
-    "title": "Result",
-    "section": "",
-    "text": "THIS WILL HAVE A VIDEO OF THE FINAL PRODUCT AND MAYBE A SKIT FROM DEMO DAY"
-  },
-  {
-    "objectID": "software/index.html",
-    "href": "software/index.html",
-    "title": "Software",
-    "section": "",
-    "text": "THIS WILL HAVE AN OVERVIEW OF WHAT THIS SECTION TALKS ABOUT AND MAYBE WHY WE DO WHAT THINGS ON THE MCU/FPGA RESPECTIVELY.\nTHINGS WE DID ON THE MCU - READ DATA WITH I2C - CONVERTED TO USABLE DATA - GENERATED A STATUS BIT TO INDICATE FULL SQUAT - SEND DATA WITH SPI\nTHINGS WE DID ON THE FPGA - READ DATA FROM SPI - DECODE DATA AND GENERATE LINES READABLE THROUGH VGA - DISPLAY VIA VGA CONNECTOR\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMCU Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFPGA Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "software/mcu/index.html#reading-and-decoding",
-    "href": "software/mcu/index.html#reading-and-decoding",
-    "title": "MCU Design",
-    "section": "Reading and Decoding",
-    "text": "Reading and Decoding\nAs seen in"
   }
 ]
