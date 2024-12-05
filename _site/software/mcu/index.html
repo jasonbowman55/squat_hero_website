@@ -207,14 +207,32 @@ ul.task-list li input[type="checkbox"] {
 <p>The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via SPI. On this page, I am focusing on the software side of this system. However, the schematic below will give insight into the hardware implementation of this software’s overall embedded system.</p>
 <section id="lsm6dso32-imus" class="level1">
 <h1>LSM6DSO32 IMUs</h1>
-<p>Why we chose these and what the goal is</p>
+<p>We chose theme IMUs for their highly customizable accelerometer peripherals, I2C capabilities, and price. In this project, we take these IMUs, mount them to the shin, femur, and torso of the user, then decode the angles, and from that, we place the (X, Y) positions of the toe, heel, knee, hip, and head on a 2D plane, which is then sent to the FPGA to perform its duties.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/imu_front.jpeg" class="img-fluid figure-img"></p>
+<figcaption>LSM6DS032 IMU <a href="https://learn.adafruit.com/assets/85936">source link</a></figcaption>
+</figure>
+</div>
 <section id="addressing-i2c" class="level2">
 <h2 class="anchored" data-anchor-id="addressing-i2c">Addressing (I2C)</h2>
-<p>How to change the address on these things and what that helps with <img src="images/imu_back.jpeg" class="img-fluid" alt="IMU source link"></p>
+<p>To fully take advantage of I2C and chain together multiple IMUs on one I2C communication bus, the chip address must be changed on one of the chips to alter the LSB of the address value. The figure below highlights what needed to be bridged.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/imu_back.jpeg" class="img-fluid figure-img"></p>
+<figcaption>IMU Backside <a href="https://learn.adafruit.com/lsm6dsox-and-ism330dhc-6-dof-imu">source link</a></figcaption>
+</figure>
+</div>
 </section>
 <section id="configuring-imu-accelerometer" class="level2">
 <h2 class="anchored" data-anchor-id="configuring-imu-accelerometer">Configuring IMU Accelerometer</h2>
-<p>How and what we need to configure on this (CTRL_XL)</p>
+<p>Configuration of the IMU accelerometer peripheral allows us to configure the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enable LPF2 data filtering.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/ctrl1_xl.jpeg" class="img-fluid figure-img"></p>
+<figcaption>LSM6DS032 Accelerometer Control Register <a href="https://www.st.com/resource/en/datasheet/lsm6dso32.pdf">datasheet</a></figcaption>
+</figure>
+</div>
 <hr>
 </section>
 </section>
@@ -223,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>intro to what I will be talking about (talk about why using that funciton, and how it looks in code)</li>
 <li>also talk about the main coding structure diagram, with GAME LOGIC as a black box</li>
-<li>Talk about what peripherals I am going to talk about later</li>
+<li>Talk about what peripherals I am going to talk about</li>
 </ul>
 <section id="gpio" class="level2">
 <h2 class="anchored" data-anchor-id="gpio">GPIO</h2>

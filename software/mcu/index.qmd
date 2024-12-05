@@ -4,22 +4,26 @@ title: MCU Design
 The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via SPI. On this page, I am focusing on the software side of this system. However, the schematic below will give insight into the hardware implementation of this software's overall embedded system.
 
 # LSM6DSO32 IMUs
-Why we chose these and what the goal is
+We chose theme IMUs for their highly customizable accelerometer peripherals, I2C capabilities, and price. In this project, we take these IMUs, mount them to the shin, femur, and torso of the user, then decode the angles, and from that, we place the (X, Y) positions of the toe, heel, knee, hip, and head on a 2D plane, which is then sent to the FPGA to perform its duties.
+
+![LSM6DS032 IMU [source link](https://learn.adafruit.com/assets/85936)](images/imu_front.jpeg)
 
 ## Addressing (I2C)
-How to change the address on these things and what that helps with
-![IMU [source link](https://learn.adafruit.com/lsm6dsox-and-ism330dhc-6-dof-imu)](images/imu_back.jpeg)
+To fully take advantage of I2C and chain together multiple IMUs on one I2C communication bus, the chip address must be changed on one of the chips to alter the LSB of the address value. The figure below highlights what needed to be bridged.
+
+![IMU Backside [source link](https://learn.adafruit.com/lsm6dsox-and-ism330dhc-6-dof-imu)](images/imu_back.jpeg)
 
 ## Configuring IMU Accelerometer
-How and what we need to configure on this (CTRL_XL)
+Configuration of the IMU accelerometer peripheral allows us to configure the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enable LPF2 data filtering.
 
+![LSM6DS032 Accelerometer Control Register [datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)](images/ctrl1_xl.jpeg)
 
 ----------------------------------------------------------
 
 # STM34L432KC MCU Peripherals & Programming Structure
 - intro to what I will be talking about (talk about why using that funciton, and how it looks in code)
 - also talk about the main coding structure diagram, with GAME LOGIC as a black box
-- Talk about what peripherals I am going to talk about later
+- Talk about what peripherals I am going to talk about
 
 ## GPIO
 initializing GPIO pins, and what pins can I use with I2C

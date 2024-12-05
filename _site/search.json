@@ -74,14 +74,14 @@
     "href": "software/mcu/index.html#addressing-i2c",
     "title": "MCU Design",
     "section": "Addressing (I2C)",
-    "text": "Addressing (I2C)\nHow to change the address on these things and what that helps with"
+    "text": "Addressing (I2C)\nTo fully take advantage of I2C and chain together multiple IMUs on one I2C communication bus, the chip address must be changed on one of the chips to alter the LSB of the address value. The figure below highlights what needed to be bridged.\n\n\n\nIMU Backside source link"
   },
   {
     "objectID": "software/mcu/index.html#configuring-imu-accelerometer",
     "href": "software/mcu/index.html#configuring-imu-accelerometer",
     "title": "MCU Design",
     "section": "Configuring IMU Accelerometer",
-    "text": "Configuring IMU Accelerometer\nHow and what we need to configure on this (CTRL_XL)"
+    "text": "Configuring IMU Accelerometer\nConfiguration of the IMU accelerometer peripheral allows us to configure the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enable LPF2 data filtering.\n\n\n\nLSM6DS032 Accelerometer Control Register datasheet"
   },
   {
     "objectID": "software/mcu/index.html#gpio",
