@@ -16,7 +16,7 @@ To fully take advantage of I2C and chain together multiple IMUs on one I2C commu
 ## Configuring IMU Accelerometer
 Configuration of the IMU accelerometer peripheral allows us to configure the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enable LPF2 data filtering.
 
-![LSM6DS032 Accelerometer Control Register [datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)](images/ctrl1_xl.jpeg)
+![LSM6DS032 Accelerometer Control Register [datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)](images/ctrl1_xl.jpeg){.bordered}
 
 ----------------------------------------------------------
 
@@ -25,23 +25,47 @@ Configuration of the IMU accelerometer peripheral allows us to configure the com
 - also talk about the main coding structure diagram, with GAME LOGIC as a black box
 - Talk about what peripherals I am going to talk about
 
+![General Code Block Diagram](images/code_structure.jpeg)
+
 ## GPIO
-initializing GPIO pins, and what pins can I use with I2C
+The GPIO pins used correspond to the periphjerals we are using (I2C1, I2C3, and SPI1), can be found in the [STM32L432KC Datasheet](https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf) under Table 14. After ensuring that all communication lines do not overlap, and that all pins requred by all peripherals were accessible, configuration of each pin must take place. More on this later.
 
 ## I2C1 & I2C3
-how I am going to use I2C
+I2C communication was used for this project for 2 reasons. As discussed in the addressing (I2C) section above, I2C allows us to communicate with multiple chips on the same communication bus. This is a critical function for this implementation considering that we require 3 IMUs. Yet, our MCU only has 2 I2C peripherals, (I2C1 and I2C3). It is also noted that because our IMUs only have 2 distinct configurable addresses, thus our I2C1 peripheral will communicate with the first 2 chips and I2C3 will communicate with the 3rd chip as seen in the data collection circuit schematic above.
+
+The implementation of I2C in general includes initialization, writing, and reading as explained below. Writing and reading will be used within initialization to configure and verify the proper function of the IMUs, while after such configuration is completed, our while loop will solely depend on the read function to gather data from all involved accelerometer registers in the accused IMU.
 
 ### Initialization
-what is needed to initialize and why
+First, I2C peripherals data and clock lines were configured in alternate function mode. The OSPEEDR registers were configured for high-speed GPIO functionality, to ensure proper data capture. The respective AFR registers must also be configured to correspond to I2C communication lines. The I2C initialization functions also configure the RCC registers to enable the I2C clock line to get the 8MHz MSI system clock.
+
+Then comes the I2Cx (where x=1 or 3) configuration where bits and transmit interrupts are enabled. Configuration of the TIMINGR registers must also take place to ensure cohesive SCL speed between the MCU and IMUs, 100kHz standard mode was used for this project. As seen below in table 181, found in the [STM32L432KC Reference Manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf), all corresponding registers were configured to match that of the 100kHz standard mode.
+
+![](images/table_181.jpeg)
+
+After configuration, there exists a WHO_AM_I register found in the IMU that holds a set, known value. Reading this function along with a brief check that the correct value is read, provides a gate for which the code can not pass unless I2C is functioning as expected.
 
 ### Writing With I2C
-how to write
+Writing to the IMU from the MCU over I2C follows the example waveform shown below, found in [Figure 371 of the STM32L432KC Reference Manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf)
+
+![STM32L432KC I2C Example Master Transmit](images/i2c_transmit.jpeg){.bordered}
+
+When being written too, the IMU expects the following pattern, as found in the [LSM6DSO32 datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)\
+
+![LSM6DSO32 Example Master Write to Slave](images/write_imu.jpeg)
 
 ### Reading With I2C
-how to read
+Reading from the IMU to the MCU over I2C follows the example waveform shown below, found in [Figure 374 of the STM32L432KC Reference Manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf)
+
+![STM32L432KC I2C Example Master Receive](images/i2c_receive.jpeg){.bordered}
+
+When being reading from, the IMU expects the following pattern, as found in the [LSM6DSO32 datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)\
+
+![LSM6DSO32 Example Master Read from Slave](images/read_imu.jpeg)
 
 ### Simulation
-Simulation of the I2C protocol and all of the specific data transfers
+Because during our initialization process of the I2C peripherals, where we read the WHO_AM_I register and halt the program if data is not read correctly, we could assume that I2C operates correctly. During the debug process, the [ADALM2000 Logic Analyzer](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/adalm2000.html) was used to view communication traces. Below is shown an example trace including reading of the WHO_AM_I register, and configuring the CTRL1_XL accelerometer control register on the IMU.
+
+![Example Read of WHO_AM_I Regsiter, and Configuration of CTRL1_XL IMU Register](images/i2c_example_trace.jpeg)
 
 ## SPI
 why am I using
@@ -58,16 +82,9 @@ By nature with SPI, whenever you send data you receive some too
 ----------------------------------------------------------
 
 # Game Logic
-Talk about the GAME LOGIC block by itself and how that works
-- Put the picture that I drew up
+Sparing any conversation about the trig required to decode angles and positions, here is a sketch I drew up to help guide me when making this code. Basically, depending on the orientation of the specific IMU, and where it is worn on the body, specific accelerometer axes are used as the tangent sides of a right triangle, and the rest is trig. Special cases had to be written for when the parallel accelerometer axis fliped sign. I also wrote code to handle the case where verticle axis fliped sign, just in case the user decides to send a backflip or fall down. It is also important to note that all accelerometer data is referenced to gravity, thus any fast jumping or jults may cause undesired behavior. Future improvements may inlcude velocity or position integrations.
 
-## Reading Accel Data
-Not how reading with I2C works, but what am I reading (reference the read function that I wrote above)
+![Math and IMU Orientation to Decode Angles and (x,y) Positions for Nodes](images/guy_drawing.jpeg){.bordered}
 
-## Angle Decode
-- How do I decode the angles
-- Talk about taking care of wierd data
-
-## Decode The Positions
-How do I do this
-- talk about the wierdness with the origin being in the top left and not bottom left
+## Reading and Decoding
+As seen in 

@@ -1,1 +1,5 @@
 /* css styles */
+.bordered {
+    border: 1px solid black; /* Adjust the thickness as needed */
+    padding: 5px;           /* Optional: Adds padding inside the border */
+}

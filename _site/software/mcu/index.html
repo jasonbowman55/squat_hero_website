@@ -175,9 +175,7 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#game-logic" id="toc-game-logic" class="nav-link" data-scroll-target="#game-logic">Game Logic</a>
   <ul class="collapse">
-  <li><a href="#reading-accel-data" id="toc-reading-accel-data" class="nav-link" data-scroll-target="#reading-accel-data">Reading Accel Data</a></li>
-  <li><a href="#angle-decode" id="toc-angle-decode" class="nav-link" data-scroll-target="#angle-decode">Angle Decode</a></li>
-  <li><a href="#decode-the-positions" id="toc-decode-the-positions" class="nav-link" data-scroll-target="#decode-the-positions">Decode The Positions</a></li>
+  <li><a href="#reading-and-decoding" id="toc-reading-and-decoding" class="nav-link" data-scroll-target="#reading-and-decoding">Reading and Decoding</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -229,7 +227,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Configuration of the IMU accelerometer peripheral allows us to configure the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enable LPF2 data filtering.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/ctrl1_xl.jpeg" class="img-fluid figure-img"></p>
+<p><img src="images/ctrl1_xl.jpeg" class="bordered img-fluid figure-img"></p>
 <figcaption>LSM6DS032 Accelerometer Control Register <a href="https://www.st.com/resource/en/datasheet/lsm6dso32.pdf">datasheet</a></figcaption>
 </figure>
 </div>
@@ -243,28 +241,72 @@ ul.task-list li input[type="checkbox"] {
 <li>also talk about the main coding structure diagram, with GAME LOGIC as a black box</li>
 <li>Talk about what peripherals I am going to talk about</li>
 </ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/code_structure.jpeg" class="img-fluid figure-img"></p>
+<figcaption>General Code Block Diagram</figcaption>
+</figure>
+</div>
 <section id="gpio" class="level2">
 <h2 class="anchored" data-anchor-id="gpio">GPIO</h2>
-<p>initializing GPIO pins, and what pins can I use with I2C</p>
+<p>The GPIO pins used correspond to the periphjerals we are using (I2C1, I2C3, and SPI1), can be found in the <a href="https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf">STM32L432KC Datasheet</a> under Table 14. After ensuring that all communication lines do not overlap, and that all pins requred by all peripherals were accessible, configuration of each pin must take place. More on this later.</p>
 </section>
 <section id="i2c1-i2c3" class="level2">
 <h2 class="anchored" data-anchor-id="i2c1-i2c3">I2C1 &amp; I2C3</h2>
-<p>how I am going to use I2C</p>
+<p>I2C communication was used for this project for 2 reasons. As discussed in the addressing (I2C) section above, I2C allows us to communicate with multiple chips on the same communication bus. This is a critical function for this implementation considering that we require 3 IMUs. Yet, our MCU only has 2 I2C peripherals, (I2C1 and I2C3). It is also noted that because our IMUs only have 2 distinct configurable addresses, thus our I2C1 peripheral will communicate with the first 2 chips and I2C3 will communicate with the 3rd chip as seen in the data collection circuit schematic above.</p>
+<p>The implementation of I2C in general includes initialization, writing, and reading as explained below. Writing and reading will be used within initialization to configure and verify the proper function of the IMUs, while after such configuration is completed, our while loop will solely depend on the read function to gather data from all involved accelerometer registers in the accused IMU.</p>
 <section id="initialization" class="level3">
 <h3 class="anchored" data-anchor-id="initialization">Initialization</h3>
-<p>what is needed to initialize and why</p>
+<p>First, I2C peripherals data and clock lines were configured in alternate function mode. The OSPEEDR registers were configured for high-speed GPIO functionality, to ensure proper data capture. The respective AFR registers must also be configured to correspond to I2C communication lines. The I2C initialization functions also configure the RCC registers to enable the I2C clock line to get the 8MHz MSI system clock.</p>
+<p>Then comes the I2Cx (where x=1 or 3) configuration where bits and transmit interrupts are enabled. Configuration of the TIMINGR registers must also take place to ensure cohesive SCL speed between the MCU and IMUs, 100kHz standard mode was used for this project. As seen below in table 181, found in the <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">STM32L432KC Reference Manual</a>, all corresponding registers were configured to match that of the 100kHz standard mode.</p>
+<p><img src="images/table_181.jpeg" class="img-fluid"></p>
+<p>After configuration, there exists a WHO_AM_I register found in the IMU that holds a set, known value. Reading this function along with a brief check that the correct value is read, provides a gate for which the code can not pass unless I2C is functioning as expected.</p>
 </section>
 <section id="writing-with-i2c" class="level3">
 <h3 class="anchored" data-anchor-id="writing-with-i2c">Writing With I2C</h3>
-<p>how to write</p>
+<p>Writing to the IMU from the MCU over I2C follows the example waveform shown below, found in <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">Figure 371 of the STM32L432KC Reference Manual</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/i2c_transmit.jpeg" class="bordered img-fluid figure-img"></p>
+<figcaption>STM32L432KC I2C Example Master Transmit</figcaption>
+</figure>
+</div>
+<p>When being written too, the IMU expects the following pattern, as found in the <a href="https://www.st.com/resource/en/datasheet/lsm6dso32.pdf">LSM6DSO32 datasheet</a><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/write_imu.jpeg" class="img-fluid figure-img"></p>
+<figcaption>LSM6DSO32 Example Master Write to Slave</figcaption>
+</figure>
+</div>
 </section>
 <section id="reading-with-i2c" class="level3">
 <h3 class="anchored" data-anchor-id="reading-with-i2c">Reading With I2C</h3>
-<p>how to read</p>
+<p>Reading from the IMU to the MCU over I2C follows the example waveform shown below, found in <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">Figure 374 of the STM32L432KC Reference Manual</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/i2c_receive.jpeg" class="bordered img-fluid figure-img"></p>
+<figcaption>STM32L432KC I2C Example Master Receive</figcaption>
+</figure>
+</div>
+<p>When being reading from, the IMU expects the following pattern, as found in the <a href="https://www.st.com/resource/en/datasheet/lsm6dso32.pdf">LSM6DSO32 datasheet</a><br>
+</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/read_imu.jpeg" class="img-fluid figure-img"></p>
+<figcaption>LSM6DSO32 Example Master Read from Slave</figcaption>
+</figure>
+</div>
 </section>
 <section id="simulation" class="level3">
 <h3 class="anchored" data-anchor-id="simulation">Simulation</h3>
-<p>Simulation of the I2C protocol and all of the specific data transfers</p>
+<p>Because during our initialization process of the I2C peripherals, where we read the WHO_AM_I register and halt the program if data is not read correctly, we could assume that I2C operates correctly. During the debug process, the <a href="https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/adalm2000.html">ADALM2000 Logic Analyzer</a> was used to view communication traces. Below is shown an example trace including reading of the WHO_AM_I register, and configuring the CTRL1_XL accelerometer control register on the IMU.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/i2c_example_trace.jpeg" class="img-fluid figure-img"></p>
+<figcaption>Example Read of WHO_AM_I Regsiter, and Configuration of CTRL1_XL IMU Register</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="spi" class="level2">
@@ -285,21 +327,16 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="game-logic" class="level1">
 <h1>Game Logic</h1>
-<p>Talk about the GAME LOGIC block by itself and how that works - Put the picture that I drew up</p>
-<section id="reading-accel-data" class="level2">
-<h2 class="anchored" data-anchor-id="reading-accel-data">Reading Accel Data</h2>
-<p>Not how reading with I2C works, but what am I reading (reference the read function that I wrote above)</p>
-</section>
-<section id="angle-decode" class="level2">
-<h2 class="anchored" data-anchor-id="angle-decode">Angle Decode</h2>
-<ul>
-<li>How do I decode the angles</li>
-<li>Talk about taking care of wierd data</li>
-</ul>
-</section>
-<section id="decode-the-positions" class="level2">
-<h2 class="anchored" data-anchor-id="decode-the-positions">Decode The Positions</h2>
-<p>How do I do this - talk about the wierdness with the origin being in the top left and not bottom left</p>
+<p>Sparing any conversation about the trig required to decode angles and positions, here is a sketch I drew up to help guide me when making this code. Basically, depending on the orientation of the specific IMU, and where it is worn on the body, specific accelerometer axes are used as the tangent sides of a right triangle, and the rest is trig. Special cases had to be written for when the parallel accelerometer axis fliped sign. I also wrote code to handle the case where verticle axis fliped sign, just in case the user decides to send a backflip or fall down. It is also important to note that all accelerometer data is referenced to gravity, thus any fast jumping or jults may cause undesired behavior. Future improvements may inlcude velocity or position integrations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/guy_drawing.jpeg" class="bordered img-fluid figure-img"></p>
+<figcaption>Math and IMU Orientation to Decode Angles and (x,y) Positions for Nodes</figcaption>
+</figure>
+</div>
+<section id="reading-and-decoding" class="level2">
+<h2 class="anchored" data-anchor-id="reading-and-decoding">Reading and Decoding</h2>
+<p>As seen in</p>
 
 
 </section>
