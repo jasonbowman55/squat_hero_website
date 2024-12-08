@@ -1,3 +1,27 @@
 ---
 title: FPGA Design
 ---
+
+# FPGA
+
+## VGA Protocol
+As part of this project we make use of a simplified VGA protocol consisting of the following signals:
+- 4-bit color data (r, g, b)
+- Horizontal sync (hs)
+- Vertical sync (vs)
+
+![VGA Protocol](images/vga_protocol.png){width=50%} TODO: add source
+
+TODO: explain how this protocol works
+
+### DAC Design
+As part of the VGA design, we needed to convert the 4-bit color data from the MCU into analog signals with a voltage range of 0-0.7V. 
+This was done using a custom DAC design, comprising of resistors of values 1kΩ, 2kΩ, 4kΩ, 8kΩ, and 16kΩ. Given a 3.3V digital input for 
+each bit along with a 75Ω impedance assumed on the VGA's ADC we can expect the following calculated equation to represent voltage outputs TODO: add equation
+
+## VGA Block Diagram
+
+
+## Parallel Communication Interface
+We used 3 I/O pins to send a series of 9 different signals to the FPGA. This would then be interpreted by the FPGA to control which framebuffer to display.
+

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -146,8 +146,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#fpga" id="toc-fpga" class="nav-link active" data-scroll-target="#fpga">FPGA</a>
+  <ul class="collapse">
+  <li><a href="#vga-protocol" id="toc-vga-protocol" class="nav-link" data-scroll-target="#vga-protocol">VGA Protocol</a>
+  <ul class="collapse">
+  <li><a href="#dac-design" id="toc-dac-design" class="nav-link" data-scroll-target="#dac-design">DAC Design</a></li>
+  </ul></li>
+  <li><a href="#vga-block-diagram" id="toc-vga-block-diagram" class="nav-link" data-scroll-target="#vga-block-diagram">VGA Block Diagram</a></li>
+  <li><a href="#parallel-peripheral-interface" id="toc-parallel-peripheral-interface" class="nav-link" data-scroll-target="#parallel-peripheral-interface">Parallel Peripheral Interface</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -171,8 +185,27 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="fpga" class="level1">
+<h1>FPGA</h1>
+<section id="vga-protocol" class="level2">
+<h2 class="anchored" data-anchor-id="vga-protocol">VGA Protocol</h2>
+<p>As part of this project we make use of a simplified VGA protocol consisting of the following signals: - 4-bit color data (r, g, b) - Horizontal sync (hs) - Vertical sync (vs)</p>
+<p><img src="images/vga_protocol.png" class="img-fluid" style="width:50.0%" alt="VGA Protocol"> TODO: add source</p>
+<p>TODO: explain how this protocol works</p>
+<section id="dac-design" class="level3">
+<h3 class="anchored" data-anchor-id="dac-design">DAC Design</h3>
+<p>As part of the VGA design, we needed to convert the 4-bit color data from the MCU into analog signals with a voltage range of 0-0.7V. This was done using a custom DAC design, comprising of resistors of values 1kΩ, 2kΩ, 4kΩ, 8kΩ, and 16kΩ. Given a 3.3V digital input for each bit along with a 75Ω impedance assumed on the VGA’s ADC we can expect the following calculated equation to represent voltage outputs TODO: add equation</p>
+</section>
+</section>
+<section id="vga-block-diagram" class="level2">
+<h2 class="anchored" data-anchor-id="vga-block-diagram">VGA Block Diagram</h2>
+</section>
+<section id="parallel-peripheral-interface" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-peripheral-interface">Parallel Peripheral Interface</h2>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -257,8 +290,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -267,7 +298,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -369,7 +400,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
