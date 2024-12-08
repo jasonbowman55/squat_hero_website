@@ -3,25 +3,81 @@ title: FPGA Design
 ---
 
 # FPGA
+For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. 
+Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a 
+stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally 
+expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably 
+meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, 
+parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads 
+the computational burden from the microcontroller and ensures that the critical VGA timing parameters 
+(horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. 
+As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.
 
-## VGA Protocol
-As part of this project we make use of a simplified VGA protocol consisting of the following signals:
-- 4-bit color data (r, g, b)
-- Horizontal sync (hs)
-- Vertical sync (vs)
 
-![VGA Protocol](images/vga_protocol.png){width=50%} TODO: add source
+## VGA Dispay 
+The VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution 
+of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting 
+flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, 
+vsync/hsync signals, while providing alternative functions with I2C clock and data signals.
 
-TODO: explain how this protocol works
+<div style="text-align: center;">
+  ![Figure 1. VGA Protocol](images/vga_protocol.png){width=50%} 
+</div>
+
+
+While the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use:
+- *4-bit Color Data (r, g, b)*: These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC.
+- *Horizontal Sync (hs)*: A signal controlling the start of a new display line.
+- *Vertical Sync (vs)*: A signal controlling the start of a new frame (top of the display).
+
+Other signals such as the I2C clock and data were not used.
+
+TODO: Describe Scan line back porches, etc.
+
+<div style="text-align: center;">
+  ![Figure 2.VGA Frame](images/vga_frame.png){width=50%}
+</div>
+
+
 
 ### DAC Design
-As part of the VGA design, we needed to convert the 4-bit color data from the MCU into analog signals with a voltage range of 0-0.7V. 
-This was done using a custom DAC design, comprising of resistors of values 1kΩ, 2kΩ, 4kΩ, 8kΩ, and 16kΩ. Given a 3.3V digital input for 
-each bit along with a 75Ω impedance assumed on the VGA's ADC we can expect the following calculated equation to represent voltage outputs TODO: add equation
+The FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. 
+To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to 
+about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values 
+in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input 
+impedance of the VGA input as part of the output stage, we can generate the correct voltage range.
 
-## VGA Block Diagram
+<div style="text-align: center;">
+  ![Figure 3. DAC Design](images/dac_design.png){width=50%} 
+</div>
+
+### VGA Block Diagram
+
+The VGA module is responsible for generating the necessary signals to drive a VGA display. It consists of several key components:
+
+- **VGA Module**: This is the top-level module that integrates all the components required for VGA signal generation. It takes inputs such as a reset signal and a frame switch, and outputs VGA clock, sync signals, and color data.
+
+- **Internal High-Speed Oscillator (HSOSC)**: Provides a base clock signal which is used by the PLL to generate the VGA clock.
+
+- **Phase-Locked Loop (PLL)**: Converts the internal oscillator's frequency to the required 25 MHz VGA clock.
+
+- **VGA Controller**: Generates horizontal and vertical sync signals, as well as blanking signals, based on the VGA timing specifications.
+
+- **Video Generator (videoGen)**: Determines the color of each pixel based on the current frame and coordinates. It uses a multiplexer to select the appropriate frame data and checks if the current pixel is within any defined rectangles.
+
+- **Frame Modules**: Each frame module (e.g., `image_frame0`, `image_frame1`, etc.) defines a set of rectangles representing different parts of an image for a specific frame.
+
+- **Frame Multiplexer (frame_mux)**: Selects the appropriate frame data based on the `frame_switch` input.
+
+- **Rectangle and Line Generators**: These modules determine if the current pixel is within a defined rectangle or on a line, respectively.
+
+The block diagram below illustrates the interconnections between these components:
+
+<div style="text-align: center;">
+  ![Figure 4. VGA Block Diagram](images/vga_block_diagram.png){width=80%} 
+</div>
+
 
 
 ## Parallel Communication Interface
-We used 3 I/O pins to send a series of 9 different signals to the FPGA. This would then be interpreted by the FPGA to control which framebuffer to display.
-
+To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation.
