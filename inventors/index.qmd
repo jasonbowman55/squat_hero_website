@@ -9,7 +9,7 @@ Engineering major at Harvey Mudd College (grad 25), with experience in embedded 
   <img src="images/headshot.jpeg" alt="Headshot" style="width: 200px; height: 200px; border-radius: 50%; vertical-align: middle; margin: 0 10px;">
 </p>
 
-*Micro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of future many individual projects involving embedded systems and digital electronics that I plan on doing*
+*Micro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of many future personal projects involving embedded systems and digital electronics that I plan on doing*
 
 <div style="text-align: center;">
   <a href="https://www.linkedin.com/in/jasonbbowman/" target="_blank" style="text-decoration: none;">
@@ -22,6 +22,11 @@ Engineering major at Harvey Mudd College (grad 25), with experience in embedded 
       👤 Jason's Personal Website
     </button>
   </a>
+  <a href="https://drive.google.com/file/d/1mEfJgMeUG4NMKEZRTSkJOuq9oFlL1GmU/view?usp=sharing" target="_blank" style="text-decoration: none;">
+    <button style="margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
+      📄 Resume
+    </button>
+  </a>
 </div>
 
 ### Ket Hollingsworth
@@ -31,7 +36,7 @@ Joint Major in Computer Science and Mathematics at Harvey Mudd College (grad 25)
   <img src="images/headshot_ket.jpeg" alt="Headshot" style="width: 200px; height: 200px; border-radius: 50%; vertical-align: middle; margin: 0 10px;">
 </p>
 
-Much of my previous research in the field of TinyML and Edge Compute Systems along with my work with ExploraVist has required me to work with embedded systems. At ExploraVist I built an embedded accessibility device, but made extensive use of available libraries and frameworks to do so. I always wanted to understand how these systems worked, and Micro ps (and this project Squat Hero) acted as a great introduction to the world of digital electronics and embedded systems. 
+*Much of my previous research in the field of TinyML and Edge Compute Systems along with my work with ExploraVist has required me to work with embedded systems. At ExploraVist I built an embedded accessibility device, but made extensive use of available libraries and frameworks to do so. I always wanted to understand how these systems worked, and Micro Ps (and this project Squat Hero) acted as a great introduction to the world of digital electronics and embedded systems.*
 
 <div style="text-align: center;">
   <a href="https://www.linkedin.com/in/ket-hollingsworth/" target="_blank" style="text-decoration: none;">
