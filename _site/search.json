@@ -1,5 +1,89 @@
 [
   {
+    "objectID": "project_logistics/index.html",
+    "href": "project_logistics/index.html",
+    "title": "Project Logistics",
+    "section": "",
+    "text": "Bill Of Materials (BOM)\n\n\n\nDone using Google Sheets, Link to BOM\n\n\n\n\nProject Timeline\n\n\n\nDone using Trello.com with BigPicture extension"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "HMC E155 “Micro Ps” course website"
+  },
+  {
+    "objectID": "software/fpga/index.html",
+    "href": "software/fpga/index.html",
+    "title": "FPGA Design",
+    "section": "",
+    "text": "For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads the computational burden from the microcontroller and ensures that the critical VGA timing parameters (horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.\n\n\nThe VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, vsync/hsync signals, while providing alternative functions with I2C clock and data signals.\n\n\n\n\nFigure 1. VGA Protocol\n\n\n\nWhile the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use: - 4-bit Color Data (r, g, b): These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC. - Horizontal Sync (hs): A signal controlling the start of a new display line. - Vertical Sync (vs): A signal controlling the start of a new frame (top of the display).\nOther signals such as the I2C clock and data were not used.\nTODO: Describe Scan line back porches, etc.\n\n\n\n\nFigure 2.VGA Frame\n\n\n\n\n\nThe FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.\n\n\n\n\nFigure 3. DAC Design\n\n\n\n\n\n\nThe VGA module is responsible for generating the necessary signals to drive a VGA display. It consists of several key components:\n\nVGA Module: This is the top-level module that integrates all the components required for VGA signal generation. It takes inputs such as a reset signal and a frame switch, and outputs VGA clock, sync signals, and color data.\nInternal High-Speed Oscillator (HSOSC): Provides a base clock signal which is used by the PLL to generate the VGA clock.\nPhase-Locked Loop (PLL): Converts the internal oscillator’s frequency to the required 25 MHz VGA clock.\nVGA Controller: Generates horizontal and vertical sync signals, as well as blanking signals, based on the VGA timing specifications.\nVideo Generator (videoGen): Determines the color of each pixel based on the current frame and coordinates. It uses a multiplexer to select the appropriate frame data and checks if the current pixel is within any defined rectangles.\nFrame Modules: Each frame module (e.g., image_frame0, image_frame1, etc.) defines a set of rectangles representing different parts of an image for a specific frame.\nFrame Multiplexer (frame_mux): Selects the appropriate frame data based on the frame_switch input.\nRectangle and Line Generators: These modules determine if the current pixel is within a defined rectangle or on a line, respectively.\n\nThe block diagram below illustrates the interconnections between these components:\n\n\n\n\nFigure 4. VGA Block Diagram\n\n\n\n\n\n\n\nTo control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation."
+  },
+  {
+    "objectID": "software/fpga/index.html#vga-dispay",
+    "href": "software/fpga/index.html#vga-dispay",
+    "title": "FPGA Design",
+    "section": "",
+    "text": "The VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, vsync/hsync signals, while providing alternative functions with I2C clock and data signals.\n\n\n\n\nFigure 1. VGA Protocol\n\n\n\nWhile the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use: - 4-bit Color Data (r, g, b): These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC. - Horizontal Sync (hs): A signal controlling the start of a new display line. - Vertical Sync (vs): A signal controlling the start of a new frame (top of the display).\nOther signals such as the I2C clock and data were not used.\nTODO: Describe Scan line back porches, etc.\n\n\n\n\nFigure 2.VGA Frame\n\n\n\n\n\nThe FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.\n\n\n\n\nFigure 3. DAC Design\n\n\n\n\n\n\nThe VGA module is responsible for generating the necessary signals to drive a VGA display. It consists of several key components:\n\nVGA Module: This is the top-level module that integrates all the components required for VGA signal generation. It takes inputs such as a reset signal and a frame switch, and outputs VGA clock, sync signals, and color data.\nInternal High-Speed Oscillator (HSOSC): Provides a base clock signal which is used by the PLL to generate the VGA clock.\nPhase-Locked Loop (PLL): Converts the internal oscillator’s frequency to the required 25 MHz VGA clock.\nVGA Controller: Generates horizontal and vertical sync signals, as well as blanking signals, based on the VGA timing specifications.\nVideo Generator (videoGen): Determines the color of each pixel based on the current frame and coordinates. It uses a multiplexer to select the appropriate frame data and checks if the current pixel is within any defined rectangles.\nFrame Modules: Each frame module (e.g., image_frame0, image_frame1, etc.) defines a set of rectangles representing different parts of an image for a specific frame.\nFrame Multiplexer (frame_mux): Selects the appropriate frame data based on the frame_switch input.\nRectangle and Line Generators: These modules determine if the current pixel is within a defined rectangle or on a line, respectively.\n\nThe block diagram below illustrates the interconnections between these components:\n\n\n\n\nFigure 4. VGA Block Diagram"
+  },
+  {
+    "objectID": "software/fpga/index.html#parallel-communication-interface",
+    "href": "software/fpga/index.html#parallel-communication-interface",
+    "title": "FPGA Design",
+    "section": "",
+    "text": "To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Squat Hero",
+    "section": "",
+    "text": "Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.\nThis project was focused on implamenting FPGA and MCU functionalities in order to measure joint angles using IMUs and display a side profile stick figure to a screen via vga cable. Tracking body motion is the first step to many kinematic solutions, and will hopefully be the first steps towards a long desired project further explained in the project ideation tab."
+  },
+  {
+    "objectID": "mechanical_design/index.html",
+    "href": "mechanical_design/index.html",
+    "title": "Mechanical Design",
+    "section": "",
+    "text": "The mechanical design for this project was minimal, given the scope of the class. The only thing that needed to be designed was the housing units for each IMU, which allow for the IMUs to be strapped to the body using velcro straps, hold the IMU in a predefined direction, be comfortable for the wearer, and allow access to the STEMMA quick connect terminals. The final result of the IMU mounts is seen below.\n FINAL DRAWINGS AND CAD MODELS + WHAT IT LOOKS LIKE WHEN WORN ON SOMEONE\nThe final product features Squat Hero labeling, labels telling where to put it on the body, and an indication of the configured chip address for clarity. This helps minimize confusion.\nEven though this is an embedded systems class, the prototype timeline can be seen below as a tribute to the engineering process. Significant changes from the original design include: - features to make tolerancing fit the IMU better - smoothing out the edges for user comfort and - sufficient labeling to help reduce any confusion\n INSERT PROTOTYPE TIMELINE PICTURES!"
+  },
+  {
+    "objectID": "result/index.html",
+    "href": "result/index.html",
+    "title": "Result",
+    "section": "",
+    "text": "Demo day is the final day of Micro Ps where we can show off our creation to all students and faculty who want to come. Below you can see the final setup we had ready for demo day, as well as a video of our instructor, Professor Josh Brake demoing our device.\n\n\n\nDemo Day Setup\n\n\n\n\nProf. Brake Testing our Demonstration at Demo Day\n\n\n\nYour browser does not support the video tag. Please try updating your browser or download the video here. \n\nDemo day was a blast, and we hope everyone enjoyed their experience. If you did not get to try out the Squat Hero product, stay tuned because this is not the end! :)"
+  },
+  {
+    "objectID": "hardware/index.html",
+    "href": "hardware/index.html",
+    "title": "Hardware",
+    "section": "",
+    "text": "THIS WILL HAVE AN OVERVIEW OF THE WHOLE CIRCUIT SCHEMATIC OF THE HARDWARE, INCLUDING FUNCTIONALITIES OF CONNECTIONS.\n\nPARAGRAPH DESCRIBING THE OVERALL GOAL OF THE HARDWARE, IE: WHAT DOES IT ENABLE US TO DO\nPICTURE OF THE CIRCUIT SCHEMATIC\nDESCRIPTION OF THE POWER SPECIFICS\nDESCRIPTION OF THE MCU HARDWARE / I2C, IE: WHAT PINS DID I USE AND WHY\nDESCIPTION OF THE SPI CONNECTIONS BETWEEN MCU AND FPGA\nVGA HARDWARE\nPICTURE OF THE FINAL HARDWARE IN PERSON"
+  },
+  {
+    "objectID": "inventors/index.html",
+    "href": "inventors/index.html",
+    "title": "Inventors",
+    "section": "",
+    "text": "Jason Bowman\nEngineering major at Harvey Mudd College (grad 25), with experience in embedded systems, control systems, DSP, mechanical design.\n\n\n\nMicro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of future many individual projects involving embedded systems and digital electronics that I plan on doing\n\n  🔗 LinkedIn     👤 Jason’s Personal Website  \n\n\n\nKet Hollingsworth\nJoint Major in Computer Science and Mathematics at Harvey Mudd College (grad 25), with experience in Embedded Systems, Machine Learning, and Software Engineering.\n\n\n\nMuch of my previous research in the field of TinyML and Edge Compute Systems along with my work with ExploraVist has required me to work with embedded systems. At ExploraVist I built an embedded accessibility device, but made extensive use of available libraries and frameworks to do so. I always wanted to understand how these systems worked, and Micro ps (and this project Squat Hero) acted as a great introduction to the world of digital electronics and embedded systems.\n\n  🔗 LinkedIn"
+  },
+  {
+    "objectID": "about/index.html",
+    "href": "about/index.html",
+    "title": "About",
+    "section": "",
+    "text": "This website was created with Quarto and deployed on GitHub pages\n\nReferences\nMicro Ps Website\nSTM32L432KC Datasheet\nSTM32L432KC Reference Manual\nUPduino v3.1 & iCE40 UP5K Datasheet\nUPduino v3.1 & iCE40 UP5K Usage Guide\nSegger Embedded Studio\nLattice Radiant\n\n\nAcknowledgments\nA special thank you to Prof. Josh Brake for structuring this class in such an impactful way. He created a highly effective learning environment and consistently provided help and feedback.\nAdditionally, thank you to Xavier Walters, who has been a mentor to me for years, offering guidance in both ideation and technical work even at odd hours of the night."
+  },
+  {
+    "objectID": "software/index.html",
+    "href": "software/index.html",
+    "title": "Software",
+    "section": "",
+    "text": "This section outlines the software implamented using C and SystemVerilog on both the MCU andd FPGA respectively, used to implament this project. Data collection and game logic can be found in the MCU section, while the VGA implamentation will be in the FPGA section.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMCU Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFPGA Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "software/mcu/index.html",
     "href": "software/mcu/index.html",
     "title": "MCU Design",
@@ -42,87 +126,10 @@
     "text": "Simulation\nThe simulation below reflects the 3-pin analog output states as the femur IMU is rotated from verticle to 90 degrees, simulating a squat motion for that leg segment. As seen, there exist 8 clear states.\n\n\n\nAnalog Output Signals Throughout a Squat Motion"
   },
   {
-    "objectID": "software/fpga/index.html",
-    "href": "software/fpga/index.html",
-    "title": "FPGA Design",
-    "section": "",
-    "text": "For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads the computational burden from the microcontroller and ensures that the critical VGA timing parameters (horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.\n\n\nThe VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, vsync/hsync signals, while providing alternative functions with I2C clock and data signals.\n\n\n\n\nFigure 1. VGA Protocol\n\n\n\nWhile the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use: - 4-bit Color Data (r, g, b): These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC. - Horizontal Sync (hs): A signal controlling the start of a new display line. - Vertical Sync (vs): A signal controlling the start of a new frame (top of the display).\nOther signals such as the I2C clock and data were not used.\nTODO: Describe Scan line back porches, etc.\n\n\n\n\nFigure 2.VGA Frame\n\n\n\n\n\nThe FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.\n\n\n\n\nFigure 3. DAC Design\n\n\n\n\n\n\nThe VGA module is responsible for generating the necessary signals to drive a VGA display. It consists of several key components:\n\nVGA Module: This is the top-level module that integrates all the components required for VGA signal generation. It takes inputs such as a reset signal and a frame switch, and outputs VGA clock, sync signals, and color data.\nInternal High-Speed Oscillator (HSOSC): Provides a base clock signal which is used by the PLL to generate the VGA clock.\nPhase-Locked Loop (PLL): Converts the internal oscillator’s frequency to the required 25 MHz VGA clock.\nVGA Controller: Generates horizontal and vertical sync signals, as well as blanking signals, based on the VGA timing specifications.\nVideo Generator (videoGen): Determines the color of each pixel based on the current frame and coordinates. It uses a multiplexer to select the appropriate frame data and checks if the current pixel is within any defined rectangles.\nFrame Modules: Each frame module (e.g., image_frame0, image_frame1, etc.) defines a set of rectangles representing different parts of an image for a specific frame.\nFrame Multiplexer (frame_mux): Selects the appropriate frame data based on the frame_switch input.\nRectangle and Line Generators: These modules determine if the current pixel is within a defined rectangle or on a line, respectively.\n\nThe block diagram below illustrates the interconnections between these components:\n\n\n\n\nFigure 4. VGA Block Diagram\n\n\n\n\n\n\n\nTo control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation."
-  },
-  {
-    "objectID": "software/fpga/index.html#vga-dispay",
-    "href": "software/fpga/index.html#vga-dispay",
-    "title": "FPGA Design",
-    "section": "",
-    "text": "The VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, vsync/hsync signals, while providing alternative functions with I2C clock and data signals.\n\n\n\n\nFigure 1. VGA Protocol\n\n\n\nWhile the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use: - 4-bit Color Data (r, g, b): These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC. - Horizontal Sync (hs): A signal controlling the start of a new display line. - Vertical Sync (vs): A signal controlling the start of a new frame (top of the display).\nOther signals such as the I2C clock and data were not used.\nTODO: Describe Scan line back porches, etc.\n\n\n\n\nFigure 2.VGA Frame\n\n\n\n\n\nThe FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.\n\n\n\n\nFigure 3. DAC Design\n\n\n\n\n\n\nThe VGA module is responsible for generating the necessary signals to drive a VGA display. It consists of several key components:\n\nVGA Module: This is the top-level module that integrates all the components required for VGA signal generation. It takes inputs such as a reset signal and a frame switch, and outputs VGA clock, sync signals, and color data.\nInternal High-Speed Oscillator (HSOSC): Provides a base clock signal which is used by the PLL to generate the VGA clock.\nPhase-Locked Loop (PLL): Converts the internal oscillator’s frequency to the required 25 MHz VGA clock.\nVGA Controller: Generates horizontal and vertical sync signals, as well as blanking signals, based on the VGA timing specifications.\nVideo Generator (videoGen): Determines the color of each pixel based on the current frame and coordinates. It uses a multiplexer to select the appropriate frame data and checks if the current pixel is within any defined rectangles.\nFrame Modules: Each frame module (e.g., image_frame0, image_frame1, etc.) defines a set of rectangles representing different parts of an image for a specific frame.\nFrame Multiplexer (frame_mux): Selects the appropriate frame data based on the frame_switch input.\nRectangle and Line Generators: These modules determine if the current pixel is within a defined rectangle or on a line, respectively.\n\nThe block diagram below illustrates the interconnections between these components:\n\n\n\n\nFigure 4. VGA Block Diagram"
-  },
-  {
-    "objectID": "software/fpga/index.html#parallel-communication-interface",
-    "href": "software/fpga/index.html#parallel-communication-interface",
-    "title": "FPGA Design",
-    "section": "",
-    "text": "To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation."
-  },
-  {
-    "objectID": "project_logistics/index.html",
-    "href": "project_logistics/index.html",
-    "title": "Project Logistics",
-    "section": "",
-    "text": "Bill Of Materials (BOM)\n\n\n\nDone using Google Sheets, Link to BOM\n\n\n\n\nProject Timeline\n\n\n\nDone using Trello.com with BigPicture extension"
-  },
-  {
-    "objectID": "mechanical_design/index.html",
-    "href": "mechanical_design/index.html",
-    "title": "Mechanical Design",
-    "section": "",
-    "text": "The mechanical design for this project was minimal, given the scope of the class. The only thing that needed to be designed was the housing units for each IMU, which allow for the IMUs to be strapped to the body using velcro straps, hold the IMU in a predefined direction, be comfortable for the wearer, and allow access to the STEMMA quick connect terminals. The final result of the IMU mounts is seen below.\n FINAL DRAWINGS AND CAD MODELS + WHAT IT LOOKS LIKE WHEN WORN ON SOMEONE\nThe final product features Squat Hero labeling, labels telling where to put it on the body, and an indication of the configured chip address for clarity. This helps minimize confusion.\nEven though this is an embedded systems class, the prototype timeline can be seen below as a tribute to the engineering process. Significant changes from the original design include: - features to make tolerancing fit the IMU better - smoothing out the edges for user comfort and - sufficient labeling to help reduce any confusion\n INSERT PROTOTYPE TIMELINE PICTURES!"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Squat Hero",
-    "section": "",
-    "text": "Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.\nThis project was focused on implamenting FPGA and MCU functionalities in order to measure joint angles using IMUs and display a side profile stick figure to a screen via vga cable. Tracking body motion is the first step to many kinematic solutions, and will hopefully be the first steps towards a long desired project further explained in the project ideation tab."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "HMC E155 “Micro Ps” course website"
-  },
-  {
-    "objectID": "hardware/index.html",
-    "href": "hardware/index.html",
-    "title": "Hardware",
-    "section": "",
-    "text": "THIS WILL HAVE AN OVERVIEW OF THE WHOLE CIRCUIT SCHEMATIC OF THE HARDWARE, INCLUDING FUNCTIONALITIES OF CONNECTIONS.\n\nPARAGRAPH DESCRIBING THE OVERALL GOAL OF THE HARDWARE, IE: WHAT DOES IT ENABLE US TO DO\nPICTURE OF THE CIRCUIT SCHEMATIC\nDESCRIPTION OF THE POWER SPECIFICS\nDESCRIPTION OF THE MCU HARDWARE / I2C, IE: WHAT PINS DID I USE AND WHY\nDESCIPTION OF THE SPI CONNECTIONS BETWEEN MCU AND FPGA\nVGA HARDWARE\nPICTURE OF THE FINAL HARDWARE IN PERSON"
-  },
-  {
-    "objectID": "inventors/index.html",
-    "href": "inventors/index.html",
-    "title": "Inventors",
-    "section": "",
-    "text": "Jason Bowman\nEngineering major at Harvey Mudd College (grad 25), with experience in embedded systems, control systems, DSP, mechanical design.\n\n\n\nMicro Ps was a must-take class as I aimed to bridge the gap between idea and product. In the past, I have done personal projects involving digital electronics, where the knowledge gained in this class would have proved immensely helpful. Squat Hero is the first of future many individual projects involving embedded systems and digital electronics that I plan on doing\n\n  🔗 LinkedIn     👤 Jason’s Personal Website  \n\n\n\nKet Hollingsworth\nJoint Major in Computer Science and Mathematics at Harvey Mudd College (grad 25), with experience in Embedded Systems, Machine Learning, and Software Engineering.\n\n\n\nMuch of my previous research in the field of TinyML and Edge Compute Systems along with my work with ExploraVist has required me to work with embedded systems. At ExploraVist I built an embedded accessibility device, but made extensive use of available libraries and frameworks to do so. I always wanted to understand how these systems worked, and Micro ps (and this project Squat Hero) acted as a great introduction to the world of digital electronics and embedded systems.\n\n  🔗 LinkedIn"
-  },
-  {
     "objectID": "project_ideation/index.html",
     "href": "project_ideation/index.html",
     "title": "Project Ideation",
     "section": "",
     "text": "The inspiration for this project came from an idea Jason had in high school while helping middle school students learn proper squat technique. The initial concept was to design a lightweight exoskeleton using motors to apply gentle resistance, guiding users through the ideal squat motion. Unlike traditional exoskeletons, this design would focus on being lightweight, affordable, and non-intrusive. Instead of doing the work for the user, it would act as a guide, helping them develop proper form without overly relying on external assistance. This approach would provide accessible and new-age fitness technology to a broad audience, including personal trainers working to enhance client performance, physical therapists helping patients recover from injuries, athletes refining their technique, and even beginners looking to build confidence and prevent injuries. By prioritizing simplicity and affordability, the design aims to maximize training time and allow the quantification of the squat form to be used for feedback training.\n\n\n\nGeneralization of squat form, image source\n\n\nThis project is an essential stepping stone in our knowledge and product development, aiming to ultimately provide a useful final product to a client. In the scope of Micro Ps, we are integrating IMU functionality, similar to what will be found in the final product, with an FPGA-driving VGA to create a game interface, further details of which can be found under the software section of the website. We chose to use IMUs for position decomposition due to their lightweight and simple-to-use interface, which eliminates the need for extensive mechanical design and complex user calibration associated with hardware-centric potentiometer decoding. Future implementations may include IMU-controlled feedback motors for selected leg joints, enhancing the overall functionality and usability of the system."
-  },
-  {
-    "objectID": "result/index.html",
-    "href": "result/index.html",
-    "title": "Result",
-    "section": "",
-    "text": "THIS WILL HAVE A VIDEO OF THE FINAL PRODUCT AND MAYBE A SKIT FROM DEMO DAY"
-  },
-  {
-    "objectID": "software/index.html",
-    "href": "software/index.html",
-    "title": "Software",
-    "section": "",
-    "text": "This section outlines the software implamented using C and SystemVerilog on both the MCU andd FPGA respectively, used to implament this project. Data collection and game logic can be found in the MCU section, while the VGA implamentation will be in the FPGA section.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMCU Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFPGA Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]

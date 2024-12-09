@@ -1,4 +1,25 @@
 ---
 title: About
-description: "General information and references"
+description: "Information, References, and Acknowledgments"
 ---
+*This website was created with [Quarto](https://quarto.org/) and deployed on GitHub pages*
+
+### References
+[Micro Ps Website](https://hmc-e155.github.io/)
+
+[STM32L432KC Datasheet](https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf)
+
+[STM32L432KC Reference Manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf)
+
+[UPduino v3.1 & iCE40 UP5K Datasheet](https://hmc-e155.github.io/assets/doc/FPGA-DS-02008-2-0-iCE40-UltraPlus-Family-Data-Sheet.pdf)
+
+[UPduino v3.1 & iCE40 UP5K Usage Guide](https://hmc-e155.github.io/assets/doc/FPGA-TN-02008-1-7-iCE40-Oscillator-Usage-Guide.pdf)
+
+[Segger Embedded Studio](https://www.segger.com/products/development-tools/embedded-studio/)
+
+[Lattice Radiant](https://www.latticesemi.com/latticeradiant)
+
+### Acknowledgments
+A special thank you to Prof. Josh Brake for structuring this class in such an impactful way. He created a highly effective learning environment and consistently provided help and feedback.
+
+Additionally, thank you to Xavier Walters, who has been a mentor to me for years, offering guidance in both ideation and technical work even at odd hours of the night.

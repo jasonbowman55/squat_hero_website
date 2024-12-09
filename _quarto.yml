@@ -16,13 +16,7 @@ website:
       - text: Hardware
         href: hardware/index.qmd
       - text: Software
-        menu:
-          - text: Software Overview
-            href: software/index.qmd
-          - text: MCU Design
-            href: software/mcu/index.qmd
-          - text: FPGA Design
-            href: software/fpga/index.qmd
+        href: software/index.qmd
       - text: Result
         href: result/index.qmd
       - text: About

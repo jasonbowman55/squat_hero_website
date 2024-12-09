@@ -1,4 +1,16 @@
 ---
 title: Result
 ---
-THIS WILL HAVE A VIDEO OF THE FINAL PRODUCT AND MAYBE A SKIT FROM DEMO DAY
+Demo day is the final day of Micro Ps where we can show off our creation to all students and faculty who want to come. Below you can see the final setup we had ready for demo day, as well as a video of our instructor, [Professor Josh Brake](https://www.linkedin.com/in/jbrake/) demoing our device.
+
+![Demo Day Setup](images/final.jpeg)
+
+<figure>
+  <figcaption>**Prof. Brake Testing our Demonstration at Demo Day**</figcaption>
+  <video width="600" controls>
+    <source src="videos/brake.mp4" type="video/mp4">
+    Your browser does not support the video tag. Please try updating your browser or download the video <a href="videos/fur_elise.mp4">here</a>.
+  </video>
+</figure>
+
+Demo day was a blast, and we hope everyone enjoyed their experience. If you did not get to try out the Squat Hero product, stay tuned because this is not the end! :)
