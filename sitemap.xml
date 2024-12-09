@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/software/mcu/index.html</loc>
-    <lastmod>2024-12-09T19:01:35.937Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/software/fpga/index.html</loc>
-    <lastmod>2024-12-09T00:19:54.908Z</lastmod>
-  </url>
-  <url>
     <loc>https://jasonbowman55.github.io/squat_hero_website/project_logistics/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.117Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/mechanical_design/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.092Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.089Z</lastmod>
+    <lastmod>2024-12-03T23:08:46.443Z</lastmod>
   </url>
   <url>
     <loc>https://jasonbowman55.github.io/squat_hero_website/about.html</loc>
-    <lastmod>2024-12-05T05:29:28.078Z</lastmod>
+    <lastmod>2024-12-03T23:39:39.079Z</lastmod>
   </url>
   <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/about/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.078Z</lastmod>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/software/fpga/index.html</loc>
+    <lastmod>2024-12-09T19:20:43.114Z</lastmod>
   </url>
   <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/hardware/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.080Z</lastmod>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/index.html</loc>
+    <lastmod>2024-12-03T22:53:38.996Z</lastmod>
   </url>
   <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/inventors/index.html</loc>
-    <lastmod>2024-12-09T00:19:54.896Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jasonbowman55.github.io/squat_hero_website/project_ideation/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.113Z</lastmod>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/mechanical_design/index.html</loc>
+    <lastmod>2024-12-04T03:32:28.228Z</lastmod>
   </url>
   <url>
     <loc>https://jasonbowman55.github.io/squat_hero_website/result/index.html</loc>
-    <lastmod>2024-12-05T05:29:28.118Z</lastmod>
+    <lastmod>2024-12-09T19:38:55.258Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/hardware/index.html</loc>
+    <lastmod>2024-12-03T23:30:22.437Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/inventors/index.html</loc>
+    <lastmod>2024-12-09T19:20:43.109Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/about/index.html</loc>
+    <lastmod>2024-12-09T20:08:53.105Z</lastmod>
   </url>
   <url>
     <loc>https://jasonbowman55.github.io/squat_hero_website/software/index.html</loc>
-    <lastmod>2024-12-09T17:07:26.243Z</lastmod>
+    <lastmod>2024-12-09T19:20:43.115Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/software/mcu/index.html</loc>
+    <lastmod>2024-12-09T19:20:43.164Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jasonbowman55.github.io/squat_hero_website/project_ideation/index.html</loc>
+    <lastmod>2024-12-03T23:30:23.781Z</lastmod>
   </url>
 </urlset>
