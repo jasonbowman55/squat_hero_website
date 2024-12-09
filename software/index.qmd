@@ -8,15 +8,4 @@ listing:
   categories: false
   sort: none
 ---
-THIS WILL HAVE AN OVERVIEW OF WHAT THIS SECTION TALKS ABOUT AND MAYBE WHY WE DO WHAT THINGS ON THE MCU/FPGA RESPECTIVELY.
-
-THINGS WE DID ON THE MCU
-- READ DATA WITH I2C
-- CONVERTED TO USABLE DATA
-- GENERATED A STATUS BIT TO INDICATE FULL SQUAT
-- SEND DATA WITH SPI
-
-THINGS WE DID ON THE FPGA
-- READ DATA FROM SPI
-- DECODE DATA AND GENERATE LINES READABLE THROUGH VGA
-- DISPLAY VIA VGA CONNECTOR
+This section outlines the software implamented using C and SystemVerilog on both the MCU andd FPGA respectively, used to implament this project. Data collection and game logic can be found in the MCU section, while the VGA implamentation will be in the FPGA section.
