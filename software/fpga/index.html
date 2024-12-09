@@ -146,8 +146,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#fpga" id="toc-fpga" class="nav-link active" data-scroll-target="#fpga">FPGA</a>
+  <ul class="collapse">
+  <li><a href="#vga-dispay" id="toc-vga-dispay" class="nav-link" data-scroll-target="#vga-dispay">VGA Dispay</a>
+  <ul class="collapse">
+  <li><a href="#dac-design" id="toc-dac-design" class="nav-link" data-scroll-target="#dac-design">DAC Design</a></li>
+  <li><a href="#vga-block-diagram" id="toc-vga-block-diagram" class="nav-link" data-scroll-target="#vga-block-diagram">VGA Block Diagram</a></li>
+  </ul></li>
+  <li><a href="#parallel-communication-interface" id="toc-parallel-communication-interface" class="nav-link" data-scroll-target="#parallel-communication-interface">Parallel Communication Interface</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -171,8 +185,74 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="fpga" class="level1">
+<h1>FPGA</h1>
+<p>For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads the computational burden from the microcontroller and ensures that the critical VGA timing parameters (horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.</p>
+<section id="vga-dispay" class="level2">
+<h2 class="anchored" data-anchor-id="vga-dispay">VGA Dispay</h2>
+<p>The VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, vsync/hsync signals, while providing alternative functions with I2C clock and data signals.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/vga_protocol.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Figure 1. VGA Protocol</figcaption>
+</figure>
+</div>
+</div>
+<p>While the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use: - <em>4-bit Color Data (r, g, b)</em>: These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC. - <em>Horizontal Sync (hs)</em>: A signal controlling the start of a new display line. - <em>Vertical Sync (vs)</em>: A signal controlling the start of a new frame (top of the display).</p>
+<p>Other signals such as the I2C clock and data were not used.</p>
+<p>TODO: Describe Scan line back porches, etc.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/vga_frame.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Figure 2.VGA Frame</figcaption>
+</figure>
+</div>
+</div>
+<section id="dac-design" class="level3">
+<h3 class="anchored" data-anchor-id="dac-design">DAC Design</h3>
+<p>The FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dac_design.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Figure 3. DAC Design</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="vga-block-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="vga-block-diagram">VGA Block Diagram</h3>
+<p>The VGA module is responsible for generating the necessary signals to drive a VGA display. It consists of several key components:</p>
+<ul>
+<li><p><strong>VGA Module</strong>: This is the top-level module that integrates all the components required for VGA signal generation. It takes inputs such as a reset signal and a frame switch, and outputs VGA clock, sync signals, and color data.</p></li>
+<li><p><strong>Internal High-Speed Oscillator (HSOSC)</strong>: Provides a base clock signal which is used by the PLL to generate the VGA clock.</p></li>
+<li><p><strong>Phase-Locked Loop (PLL)</strong>: Converts the internal oscillator’s frequency to the required 25 MHz VGA clock.</p></li>
+<li><p><strong>VGA Controller</strong>: Generates horizontal and vertical sync signals, as well as blanking signals, based on the VGA timing specifications.</p></li>
+<li><p><strong>Video Generator (videoGen)</strong>: Determines the color of each pixel based on the current frame and coordinates. It uses a multiplexer to select the appropriate frame data and checks if the current pixel is within any defined rectangles.</p></li>
+<li><p><strong>Frame Modules</strong>: Each frame module (e.g., <code>image_frame0</code>, <code>image_frame1</code>, etc.) defines a set of rectangles representing different parts of an image for a specific frame.</p></li>
+<li><p><strong>Frame Multiplexer (frame_mux)</strong>: Selects the appropriate frame data based on the <code>frame_switch</code> input.</p></li>
+<li><p><strong>Rectangle and Line Generators</strong>: These modules determine if the current pixel is within a defined rectangle or on a line, respectively.</p></li>
+</ul>
+<p>The block diagram below illustrates the interconnections between these components:</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/vga_block_diagram.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Figure 4. VGA Block Diagram</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="parallel-communication-interface" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-communication-interface">Parallel Communication Interface</h2>
+<p>To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

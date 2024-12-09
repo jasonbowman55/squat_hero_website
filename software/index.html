@@ -231,19 +231,17 @@ window.Quarto = {
 </header>
 
 
-<p>THIS WILL HAVE AN OVERVIEW OF WHAT THIS SECTION TALKS ABOUT AND MAYBE WHY WE DO WHAT THINGS ON THE MCU/FPGA RESPECTIVELY.</p>
-<p>THINGS WE DID ON THE MCU - READ DATA WITH I2C - CONVERTED TO USABLE DATA - GENERATED A STATUS BIT TO INDICATE FULL SQUAT - SEND DATA WITH SPI</p>
-<p>THINGS WE DID ON THE FPGA - READ DATA FROM SPI - DECODE DATA AND GENERATE LINES READABLE THROUGH VGA - DISPLAY VIA VGA CONNECTOR</p>
+<p>This section outlines the software implamented using C and SystemVerilog on both the MCU andd FPGA respectively, used to implament this project. Data collection and game logic can be found in the MCU section, while the VGA implamentation will be in the FPGA section.</p>
 
 
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1733441149560" data-listing-reading-time-sort="6" data-listing-word-count-sort="1035">
+<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1733770895937" data-listing-reading-time-sort="6" data-listing-word-count-sort="1084">
 <div class="thumbnail">
 <p><a href="../software/mcu/index.html" class="no-external"></a></p><a href="../software/mcu/index.html" class="no-external">
-<p class="card-img-top"><img src="mcu/images/imu_front.jpeg"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="mcu\images\mcu_real.jpeg"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../software/mcu/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -254,7 +252,7 @@ window.Quarto = {
 <a href="../software/mcu/index.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<a href="../software/mcu/index.html" class="no-external">The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is…</a>
+<a href="../software/mcu/index.html" class="no-external">This project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is…</a>
 </div>
 </div>
 <div class="metadata">
@@ -262,10 +260,10 @@ window.Quarto = {
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1732568051071" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1733703594908" data-listing-reading-time-sort="4" data-listing-word-count-sort="710">
 <div class="thumbnail">
 <p><a href="../software/fpga/index.html" class="no-external"></a></p><a href="../software/fpga/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+<p class="card-img-top"><img src="fpga\images\vga_protocol.png"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../software/fpga/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -276,7 +274,7 @@ window.Quarto = {
 <a href="../software/fpga/index.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<a href="../software/fpga/index.html" class="no-external"></a>
+<a href="../software/fpga/index.html" class="no-external">For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. Although many microcontrollers can perform VGA output…</a>
 </div>
 </div>
 <div class="metadata">
