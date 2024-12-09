@@ -74,7 +74,7 @@
     "href": "about/index.html",
     "title": "About",
     "section": "",
-    "text": "This website was created with Quarto and deployed on GitHub pages\n\nReferences\n\nMicro Ps Website\nSTM32L432KC Datasheet\nSTM32L432KC Reference Manual\nUPduino v3.1 & iCE40 UP5K Datasheet\nUPduino v3.1 & iCE40 UP5K Usage Guide\nSegger Embedded Studio\nLattice Radiant\n\n\n\nAcknowledgments\nA special thank you to Prof. Josh Brake for structuring this class in such an impactful way. He created a highly effective learning environment and consistently provided help and feedback.\nAdditionally, thank you to Xavier Walters, who has been a mentor to me for years, offering guidance in both ideation and technical work even at odd hours of the night."
+    "text": "This website was created with Quarto and deployed on GitHub pages\n\nReferences\nMicro Ps Website\nSTM32L432KC Datasheet\nSTM32L432KC Reference Manual\nUPduino v3.1 & iCE40 UP5K Datasheet\nUPduino v3.1 & iCE40 UP5K Usage Guide\nSegger Embedded Studio\nLattice Radiant\n\n\nAcknowledgments\nA special thank you to Prof. Josh Brake for structuring this class in such an impactful way. He created a highly effective learning environment and consistently provided help and feedback.\nAdditionally, thank you to Xavier Walters, who has been a mentor to me for years, offering guidance in both ideation and technical work even at odd hours of the night."
   },
   {
     "objectID": "software/index.html",
