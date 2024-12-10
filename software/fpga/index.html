@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -136,15 +136,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#fpga" id="toc-fpga" class="nav-link active" data-scroll-target="#fpga">FPGA</a>
+  <li><a href="#vga-protocol" id="toc-vga-protocol" class="nav-link active" data-scroll-target="#vga-protocol">VGA Protocol:</a>
   <ul class="collapse">
-  <li><a href="#vga-dispay" id="toc-vga-dispay" class="nav-link" data-scroll-target="#vga-dispay">VGA Dispay</a>
-  <ul class="collapse">
-  <li><a href="#dac-design" id="toc-dac-design" class="nav-link" data-scroll-target="#dac-design">DAC Design</a></li>
+  <li><a href="#scan-line-timing" id="toc-scan-line-timing" class="nav-link" data-scroll-target="#scan-line-timing">Scan Line Timing</a></li>
+  <li><a href="#frame-timing" id="toc-frame-timing" class="nav-link" data-scroll-target="#frame-timing">Frame Timing</a></li>
   <li><a href="#vga-block-diagram" id="toc-vga-block-diagram" class="nav-link" data-scroll-target="#vga-block-diagram">VGA Block Diagram</a></li>
   </ul></li>
   <li><a href="#parallel-communication-interface" id="toc-parallel-communication-interface" class="nav-link" data-scroll-target="#parallel-communication-interface">Parallel Communication Interface</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -170,11 +168,17 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="fpga" class="level1">
-<h1>FPGA</h1>
-<p>For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads the computational burden from the microcontroller and ensures that the critical VGA timing parameters (horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.</p>
-<section id="vga-dispay" class="level2">
-<h2 class="anchored" data-anchor-id="vga-dispay">VGA Dispay</h2>
+<p>For this project the FPGA was selected to drive the VGA display due to its ability to handle the timing requirements of the VGA protocol. In this section we will describe the VGA protocol and the FPGA design that was used to drive the display.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/fpga.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>FPGA</figcaption>
+</figure>
+</div>
+</div>
+<section id="vga-protocol" class="level2">
+<h2 class="anchored" data-anchor-id="vga-protocol">VGA Protocol:</h2>
 <p>The VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, vsync/hsync signals, while providing alternative functions with I2C clock and data signals.</p>
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -186,7 +190,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p>While the original specification included additional functionality such as I²C data channels (DDC) for EDID communication, in this project we only use: - <em>4-bit Color Data (r, g, b)</em>: These digital outputs from the FPGA are converted into analog signals using a simple resistor DAC. - <em>Horizontal Sync (hs)</em>: A signal controlling the start of a new display line. - <em>Vertical Sync (vs)</em>: A signal controlling the start of a new frame (top of the display).</p>
 <p>Other signals such as the I2C clock and data were not used.</p>
-<p>TODO: Describe Scan line back porches, etc.</p>
 <div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -195,17 +198,26 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </div>
-<section id="dac-design" class="level3">
-<h3 class="anchored" data-anchor-id="dac-design">DAC Design</h3>
-<p>The FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.</p>
-<div style="text-align: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/dac_design.png" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Figure 3. DAC Design</figcaption>
-</figure>
-</div>
-</div>
+<section id="scan-line-timing" class="level3">
+<h3 class="anchored" data-anchor-id="scan-line-timing">Scan Line Timing</h3>
+<p>A single scan line in the VGA protocol is divided into several segments:</p>
+<ul>
+<li><p><strong>Front Porch</strong>: This is the time between the end of the visible line and the start of the horizontal sync pulse. It allows the electron beam to move from the end of the line back to the start of the next line.</p></li>
+<li><p><strong>Horizontal Sync Pulse</strong>: This is a short pulse that indicates the end of a scan line and the start of the next. It is used to synchronize the display’s horizontal scanning.</p></li>
+<li><p><strong>Back Porch</strong>: This is the time after the horizontal sync pulse and before the start of the visible line. It allows the electron beam to stabilize before starting to draw the next line.</p></li>
+<li><p><strong>Visible Area</strong>: This is the part of the scan line where the actual image data is displayed.</p></li>
+</ul>
+</section>
+<section id="frame-timing" class="level3">
+<h3 class="anchored" data-anchor-id="frame-timing">Frame Timing</h3>
+<p>Similarly, a frame is divided into:</p>
+<ul>
+<li><p><strong>Vertical Front Porch</strong>: The time between the end of the visible frame and the start of the vertical sync pulse.</p></li>
+<li><p><strong>Vertical Sync Pulse</strong>: A pulse indicating the end of a frame and the start of the next. It synchronizes the vertical scanning.</p></li>
+<li><p><strong>Vertical Back Porch</strong>: The time after the vertical sync pulse and before the start of the visible frame.</p></li>
+<li><p><strong>Visible Frame</strong>: The area where the image data is displayed.</p></li>
+</ul>
+<p>These timing segments are crucial for ensuring that the display correctly interprets the signals and displays the image as intended. In order to write the FPGA code we made reference of Chapter 9 in the book Digital Design and Computer Architecture by David Harris and Sarah Harris. We will describe the FPGA design in the next section.</p>
 </section>
 <section id="vga-block-diagram" class="level3">
 <h3 class="anchored" data-anchor-id="vga-block-diagram">VGA Block Diagram</h3>
@@ -236,7 +248,6 @@ ul.task-list li input[type="checkbox"] {
 <p>To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -322,8 +333,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -434,7 +443,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -137,7 +137,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#mcuimu-hardware" id="toc-mcuimu-hardware" class="nav-link active" data-scroll-target="#mcuimu-hardware">MCU/IMU Hardware</a></li>
-  <li><a href="#fpgavga-hardware" id="toc-fpgavga-hardware" class="nav-link" data-scroll-target="#fpgavga-hardware">FPGA/VGA Hardware</a></li>
+  <li><a href="#fpgavga-hardware" id="toc-fpgavga-hardware" class="nav-link" data-scroll-target="#fpgavga-hardware">FPGA/VGA Hardware</a>
+  <ul class="collapse">
+  <li><a href="#dac-design" id="toc-dac-design" class="nav-link" data-scroll-target="#dac-design">DAC Design</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -164,33 +167,52 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>The goal of this hardware is to facilitate communication between the MCU, FPGA, and IMUs. The schematic below provides a comprehensive overview of the system, including all individual components.</p>
+<div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/circuit_schematic.jpeg" class="img-fluid figure-img"></p>
 <figcaption>Circuit Schematic Drawn on <a href="https://www.kicad.org/">KiCad</a></figcaption>
 </figure>
 </div>
+</div>
 <section id="mcuimu-hardware" class="level1">
 <h1>MCU/IMU Hardware</h1>
 <p>I2C operates simply, requiring only an SCL, SDA, and power and ground lines for each IMU. The key thing to remember with I2C hardware is that the SCL and SDA lines are idle high, so they require 1kΩ to 10kΩ pull-up resistors, as shown in the schematic above with the 6.8kΩ resistors. As described in the software section, the SCL1 and SDA1 lines corresponding to the I2C1 peripheral enable communication with multiple IMUs on a single bus, while the SCL3 and SDA3 lines corresponding to the I2C3 peripheral are connected to only one IMU. Below, you can see an image of the finished hardware implementation in real life. It was soldered onto a protoboard with 4-pin connectors for the I2C peripherals and for the state variables going to the FPGA, making the system more durable and modular.</p>
+<div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/mcu_real.jpeg" class="img-fluid figure-img"></p>
 <figcaption>Real Life Implamentation of MCU Hardware</figcaption>
 </figure>
 </div>
+</div>
 <p>Below is the complete MCU + (3x) IMUs circuit, including wiring harnesses and Velcro straps. The two IMUs on the right attach to the right leg: the blue IMU (with the address terminal jumped) is positioned at the center right of the shin segment, while the white IMU is strapped to the center right of the femur segment. The left IMU is attached with the cable facing downward at the center of the chest, with the screws on the right side of the user. STEMMA quick-connect cables, spliced onto measured stranded wire extensions, form the wiring harnesses, ensuring easy, reliable, and modular interfacing with the IMUs. The ends of both the leg and torso sections are connected to the MCU protoboard via 4-pin wire-to-board connectors.</p>
+<div style="text-align: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/full_mcu_imu.jpeg" class="img-fluid figure-img"></p>
 <figcaption>Real Life Implamentation of MCU + (3x) IMU Hardware</figcaption>
 </figure>
 </div>
+</div>
 </section>
 <section id="fpgavga-hardware" class="level1">
 <h1>FPGA/VGA Hardware</h1>
+<p>For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads the computational burden from the microcontroller and ensures that the critical VGA timing parameters (horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.</p>
+<section id="dac-design" class="level2">
+<h2 class="anchored" data-anchor-id="dac-design">DAC Design</h2>
+<p>The FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.</p>
+<div style="text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dac_design.png" class="img-fluid figure-img"></p>
+<figcaption>DAC Design</figcaption>
+</figure>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -276,8 +298,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -388,7 +408,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
