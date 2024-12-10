@@ -1,6 +1,5 @@
 ---
 title: "Squat Hero"
-image: images/logo.jpeg
 about:
     template: jolla
     links:
@@ -11,6 +10,8 @@ about:
         text: GitHub
         href: https://github.com/KetAveryH/Squat-Hero.git
 ---
+
+![](images/jk_squat.jpeg)
 
 Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.
 
