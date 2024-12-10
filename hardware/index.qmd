@@ -1,12 +1,17 @@
 ---
 title: Hardware
 ---
-THIS WILL HAVE AN OVERVIEW OF THE WHOLE CIRCUIT SCHEMATIC OF THE HARDWARE, INCLUDING FUNCTIONALITIES OF CONNECTIONS.
+The goal of this hardware is to facilitate communication between the MCU, FPGA, and IMUs. The schematic below provides a comprehensive overview of the system, including all individual components.
 
-(1) PARAGRAPH DESCRIBING THE OVERALL GOAL OF THE HARDWARE, IE: WHAT DOES IT ENABLE US TO DO
-(2) PICTURE OF THE CIRCUIT SCHEMATIC
-(3) DESCRIPTION OF THE POWER SPECIFICS
-(4) DESCRIPTION OF THE MCU HARDWARE / I2C, IE: WHAT PINS DID I USE AND WHY
-(5) DESCIPTION OF THE SPI CONNECTIONS BETWEEN MCU AND FPGA
-(6) VGA HARDWARE
-(7) PICTURE OF THE FINAL HARDWARE IN PERSON
+![Circuit Schematic Drawn on [KiCad](https://www.kicad.org/)](images/circuit_schematic.jpeg)
+
+# MCU/IMU Hardware
+I2C operates simply, requiring only an SCL, SDA, and power and ground lines for each IMU. The key thing to remember with I2C hardware is that the SCL and SDA lines are idle high, so they require 1kΩ to 10kΩ pull-up resistors, as shown in the schematic above with the 6.8kΩ resistors. As described in the software section, the SCL1 and SDA1 lines corresponding to the I2C1 peripheral enable communication with multiple IMUs on a single bus, while the SCL3 and SDA3 lines corresponding to the I2C3 peripheral are connected to only one IMU. Below, you can see an image of the finished hardware implementation in real life. It was soldered onto a protoboard with 4-pin connectors for the I2C peripherals and for the state variables going to the FPGA, making the system more durable and modular.
+
+![Real Life Implamentation of MCU Hardware](images/mcu_real.jpeg)
+
+Below is the complete MCU + (3x) IMUs circuit, including wiring harnesses and Velcro straps. The two IMUs on the right attach to the right leg: the blue IMU (with the address terminal jumped) is positioned at the center right of the shin segment, while the white IMU is strapped to the center right of the femur segment. The left IMU is attached with the cable facing downward at the center of the chest, with the screws on the right side of the user. STEMMA quick-connect cables, spliced onto measured stranded wire extensions, form the wiring harnesses, ensuring easy, reliable, and modular interfacing with the IMUs. The ends of both the leg and torso sections are connected to the MCU protoboard via 4-pin wire-to-board connectors.
+
+![Real Life Implamentation of MCU + (3x) IMU Hardware](images/full_mcu_imu.jpeg)
+
+# FPGA/VGA Hardware
