@@ -3,29 +3,37 @@ title: MCU Design
 ---
 This project employs the [STM32 Nucleo-32 board with an STM32L432KC MCU](https://www.st.com/en/evaluation-tools/nucleo-l432kc.html), facilitating direct I2C communication with three [LSM6DSO32](https://www.adafruit.com/product/4692) IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via 3 digital outputs. On this page, I am focusing on the software side of the MCU system.
 
+<div style="text-align: center;">
 ![STM32 Nucleo-32 board with an STM32L432KC MCU](images/stm32.jpeg)
+</div>
 
 # LSM6DSO32 IMUs
 We selected these IMUs for their highly customizable accelerometer peripherals, I2C compatibility, and cost-effectiveness. In this project, the IMUs are mounted on the user's shin, femur, and torso to measure angles. From these measurements, we also calculate the (X, Y) positions of the toe, heel, knee, hip, and head on a 2D plane. A subset of this data is then transmitted to the FPGA for further processing.
 
+<div style="text-align: center;">   
 ![LSM6DS032 IMU [source link](https://learn.adafruit.com/assets/85936)](images/imu_front.jpeg)
+</div>
 
 ## Addressing (I2C)
 To fully take advantage of I2C, we chain together multiple IMUs on one I2C communication bus. The chip address must be changed on one of the chips to alter the LSB of the address value. The figure below highlights what needed to be bridged to achieve this configuration.
 
+<div style="text-align: center;">   
 ![IMU Backside [source link](https://learn.adafruit.com/lsm6dsox-and-ism330dhc-6-dof-imu)](images/imu_back.jpeg)
 
 ## Configuring IMU Accelerometer
 Configuration of the IMU accelerometer peripheral allows us to alter the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enabled LPF2 data filtering.
 
 ![LSM6DS032 Accelerometer Control Register [datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)](images/ctrl1_xl.jpeg){.bordered}
+</div>
 
 ----------------------------------------------------------
 
 # MCU Peripherals & Programming Structure
 As seen below in the block diagram, several key steps are involved in this process. First, all peripherals on the MCU were configured, as explained later, along with the CTRL1_XL register on each IMU. The angles of the ankle, knee, hip, and separately, the femur relative to the ground were decoded using simple trigonometry derived from the accelerometer axis magnitudes. Finally, a function was written to generate eight independent 3-bit states based on the femur's angle relative to the ground, which were then output to the FPGA over digital I/O pins.
 
+<div style="text-align: center;">   
 ![General Code Block Diagram](images/code_structure1.jpeg){.bordered}
+</div>
 
 ## GPIOx (x=A,B)
 The GPIO pins used correspond to the peripherals we are using (I2C1, I2C3, GPIOA, and GPIOB), which can be found in the [STM32L432KC Datasheet](https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf) under Table 14. After ensuring that all communication lines do not overlap and that all pins required by all peripherals are accessible, the configuration of each pin must take place. More on this later.
@@ -39,8 +47,9 @@ The implementation of I2C in general includes initialization, writing, and readi
 First, I2C peripherals data and clock lines were configured in alternate function mode. The OSPEEDR registers were configured for high-speed GPIO functionality, to ensure proper data capture. The respective AFR registers must also be configured to correspond to I2C communication lines. The I2C initialization functions also configure the RCC registers to enable the I2C clock line to get the 8MHz MSI system clock.
 
 Then comes the I2Cx (where x=1,3) configuration where bits and transmit interrupts are enabled. Configuration of the TIMINGR registers must also take place to ensure cohesive SCL speed between the MCU and IMUs, 100kHz standard mode was used for this project. As seen below in table 181, found in the [STM32L432KC Reference Manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf), all corresponding registers were configured to match that of the 100kHz standard mode.
-
+<div style="text-align: center;">
 ![](images/table_181.jpeg){.bordered}
+</div>
 
 After configuration, a WHO_AM_I register that holds a set known value exists in the IMU. Reading this register along with a brief check that the correct value is read, provides a gate for which the code can not pass unless I2C is functioning as expected. Allowing us to know if I2C communication is working correctly.
 
@@ -50,22 +59,27 @@ Writing to the IMU from the MCU over I2C follows the example waveform shown belo
 ![STM32L432KC I2C Example Master Transmit](images/i2c_transmit.jpeg){.bordered}
 
 When being written too, the IMU expects the following pattern, as found in the [LSM6DSO32 datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)\
-
+<div style="text-align: center;">
 ![LSM6DSO32 Example Master Write to Slave](images/write_imu.jpeg){.bordered}
+</div>
 
 ### Reading With I2C
 Reading from the IMU to the MCU over I2C follows the example waveform shown below, found in [Figure 374 of the STM32L432KC Reference Manual](https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf)
-
+<div style="text-align: center;">
 ![STM32L432KC I2C Example Master Receive](images/i2c_receive.jpeg){.bordered}
+</div>
 
 When being reading from, the IMU expects the following pattern, as found in the [LSM6DSO32 datasheet](https://www.st.com/resource/en/datasheet/lsm6dso32.pdf)\
-
+<div style="text-align: center;">
 ![LSM6DSO32 Example Master Read from Slave](images/read_imu.jpeg){.bordered}
+</div>
 
 ### Simulation
 Because during our initialization process of the I2C peripherals, where we read the WHO_AM_I register and halt the program if data is not read correctly, we could assume that I2C operates correctly. During the debug process, the [ADALM2000 Logic Analyzer](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/adalm2000.html) was used to view communication traces. Below is shown an example trace including reading of the WHO_AM_I register, and configuring the CTRL1_XL accelerometer control register on the IMU.
 
+<div style="text-align: center;">
 ![Example Read of WHO_AM_I Regsiter, and Configuration of CTRL1_XL IMU Register](images/i2c_example_trace.jpeg)
+</div>
 
 ----------------------------------------------------------
 
@@ -75,7 +89,9 @@ A combination of 8 different output states via 3 digital output pins was used to
 ## Simulation
 The simulation below reflects the 3-pin analog output states as the femur IMU is rotated from verticle to 90 degrees, simulating a squat motion for that leg segment. As seen, there exist 8 clear states.
 
+<div style="text-align: center;">
 ![Analog Output Signals Throughout a Squat Motion](images/debounced_outs.jpeg)
+</div>
 
 # End State
 This implementation successfully provided accurate readings and correctly outputs analog states derived from IMU data, effectively simulating the progress and status of a squat.

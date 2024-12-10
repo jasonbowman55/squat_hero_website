@@ -84,7 +84,9 @@ The block diagram below illustrates the interconnections between these component
   ![Figure 4. VGA Block Diagram](images/vga_block_diagram.png){width=80%} 
 </div>
 
-
-
 ## Parallel Communication Interface
-To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states (0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s output without requiring the MCU to handle the stringent timing or memory requirements associated with full video generation.
+To control which frame is displayed, the microcontroller sets 3 I/O lines to a specific pattern of states 
+(0-7 in binary) to select one of eight predefined frames. Each frame corresponds to a particular arrangement 
+of graphical elements. This simple and low-bandwidth interface allows the microcontroller to direct the FPGA’s 
+video frame output without requiring the MCU to handle the stringent timing or memory requirements associated with full 
+video generation.

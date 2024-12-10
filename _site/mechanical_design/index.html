@@ -166,11 +166,21 @@ ul.task-list li input[type="checkbox"] {
 <p>The mechanical design for this project was minimal due to the scope of the class. The primary task was designing housing units for each IMU. These housings needed to meet several criteria: securely attaching the IMUs to the body using Velcro straps, maintaining a predefined orientation for the IMUs, ensuring wearer comfort, and providing access to the STEMMA quick-connect terminals. The final IMU mount design is shown below. The groove at the bottom of the mount accommodates the solder bridge required to modify specific chip addresses.</p>
 <section id="isometric-view" class="level2">
 <h2 class="anchored" data-anchor-id="isometric-view">Isometric View</h2>
-<p><img src="images/full.jpeg" class="img-fluid" style="width:100.0%"> <img src="images/full_real.jpeg" class="img-fluid" style="width:100.0%"></p>
+<div style="text-align: center;">
+<p><img src="images/full.jpeg" class="img-fluid" style="width:100.0%"></p>
+</div>
+<div style="text-align: center;">
+<p><img src="images/full_real.jpeg" class="img-fluid" style="width:100.0%"></p>
+</div>
 </section>
 <section id="side-view" class="level2">
 <h2 class="anchored" data-anchor-id="side-view">Side View</h2>
-<p><img src="images/side.jpeg" class="img-fluid" style="width:100.0%"> <img src="images/side_real.jpeg" class="img-fluid" style="width:100.0%"></p>
+<div style="text-align: center;">
+<p><img src="images/side.jpeg" class="img-fluid" style="width:100.0%"></p>
+</div>
+<div style="text-align: center;">
+<p><img src="images/side_real.jpeg" class="img-fluid" style="width:100.0%"></p>
+</div>
 
 
 </section>
@@ -266,7 +276,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
