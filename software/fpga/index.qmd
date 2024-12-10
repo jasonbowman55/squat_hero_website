@@ -2,19 +2,14 @@
 title: FPGA Design
 ---
 
-# FPGA
-For this project, the Field-Programmable Gate Array (FPGA) was utilized to generate and drive a VGA display signal. 
-Although many microcontrollers can perform VGA output through bit-banging or specialized peripherals, producing a 
-stable, high-resolution image at a standard VGA refresh rate (e.g., 640x480 at 60 Hz) can be computationally 
-expensive and timing-sensitive. Microcontrollers running linear, sequential instructions often struggle to reliably 
-meet these stringent timing requirements without additional support. In contrast, an FPGA can implement dedicated, 
-parallel hardware logic, including a custom pixel pipeline and timing generation circuitry. This approach offloads 
-the computational burden from the microcontroller and ensures that the critical VGA timing parameters 
-(horizontal/vertical sync pulses, front/back porches, and active video periods) are consistently maintained. 
-As a result, the FPGA ensures smooth, flicker-free 60 Hz display updates.
+For this project the FPGA was selected to drive the VGA display due to its ability to handle the timing requirements of the VGA protocol. 
+In this section we will describe the VGA protocol and the FPGA design that was used to drive the display.
 
+<div style="text-align: center;">
+![FPGA](images/fpga.jpg){width=50%}
+</div>
 
-## VGA Dispay 
+## VGA Protocol:
 The VGA protocol originated with the intended purpose of displaying images on cathode ray tubes (CRTs) with a resolution 
 of 640 x 480 pixels. These CRTs would strobe an electron beam across the display from left to right and top to bottom, exciting 
 flourescent material to display ultimately display an image. a 15-pin connector was used to transmit the necessary analog color data, 
@@ -32,24 +27,36 @@ While the original specification included additional functionality such as I²C 
 
 Other signals such as the I2C clock and data were not used.
 
-TODO: Describe Scan line back porches, etc.
-
 <div style="text-align: center;">
   ![Figure 2.VGA Frame](images/vga_frame.png){width=50%}
 </div>
 
+### Scan Line Timing
+A single scan line in the VGA protocol is divided into several segments:
 
+- **Front Porch**: This is the time between the end of the visible line and the start of the horizontal sync pulse. It allows the electron beam to move from the end of the line back to the start of the next line.
 
-### DAC Design
-The FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. 
-To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to 
-about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values 
-in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input 
-impedance of the VGA input as part of the output stage, we can generate the correct voltage range.
+- **Horizontal Sync Pulse**: This is a short pulse that indicates the end of a scan line and the start of the next. It is used to synchronize the display's horizontal scanning.
 
-<div style="text-align: center;">
-  ![Figure 3. DAC Design](images/dac_design.png){width=50%} 
-</div>
+- **Back Porch**: This is the time after the horizontal sync pulse and before the start of the visible line. It allows the electron beam to stabilize before starting to draw the next line.
+
+- **Visible Area**: This is the part of the scan line where the actual image data is displayed.
+
+### Frame Timing
+Similarly, a frame is divided into:
+
+- **Vertical Front Porch**: The time between the end of the visible frame and the start of the vertical sync pulse.
+
+- **Vertical Sync Pulse**: A pulse indicating the end of a frame and the start of the next. It synchronizes the vertical scanning.
+
+- **Vertical Back Porch**: The time after the vertical sync pulse and before the start of the visible frame.
+
+- **Visible Frame**: The area where the image data is displayed.
+
+These timing segments are crucial for ensuring that the display correctly interprets the signals and displays the image as intended. 
+In order to write the FPGA code we made reference of Chapter 9 in the book Digital Design and Computer Architecture by David Harris and Sarah Harris. 
+We will describe the FPGA design in the next section.
+
 
 ### VGA Block Diagram
 
