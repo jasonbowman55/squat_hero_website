@@ -182,14 +182,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This project employs the <a href="https://www.st.com/en/evaluation-tools/nucleo-l432kc.html">STM32 Nucleo-32 board with an STM32L432KC MCU</a>, facilitating direct I2C communication with three <a href="https://www.adafruit.com/product/4692">LSM6DSO32</a> IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via 3 digital outputs. On this page, I am focusing on the software side of the MCU system. However, the image and schematic below will give insight into the hardware implementation of this software’s overall embedded system.</p>
+<p>This project employs the <a href="https://www.st.com/en/evaluation-tools/nucleo-l432kc.html">STM32 Nucleo-32 board with an STM32L432KC MCU</a>, facilitating direct I2C communication with three <a href="https://www.adafruit.com/product/4692">LSM6DSO32</a> IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via 3 digital outputs. On this page, I am focusing on the software side of the MCU system.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/mcu_real.jpeg" class="img-fluid figure-img"></p>
-<figcaption>Real Life MCU Implamentation</figcaption>
+<p><img src="images/stm32.jpeg" class="img-fluid figure-img"></p>
+<figcaption>STM32 Nucleo-32 board with an STM32L432KC MCU</figcaption>
 </figure>
 </div>
-<p><strong>PICTURE OF THE MCU SIDE OF THE SCHEMATIC</strong></p>
 <section id="lsm6dso32-imus" class="level1">
 <h1>LSM6DSO32 IMUs</h1>
 <p>We selected these IMUs for their highly customizable accelerometer peripherals, I2C compatibility, and cost-effectiveness. In this project, the IMUs are mounted on the user’s shin, femur, and torso to measure angles. From these measurements, we also calculate the (X, Y) positions of the toe, heel, knee, hip, and head on a 2D plane. A subset of this data is then transmitted to the FPGA for further processing.</p>
