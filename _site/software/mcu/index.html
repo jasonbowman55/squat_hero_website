@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -141,9 +141,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#addressing-i2c" id="toc-addressing-i2c" class="nav-link" data-scroll-target="#addressing-i2c">Addressing (I2C)</a></li>
   <li><a href="#configuring-imu-accelerometer" id="toc-configuring-imu-accelerometer" class="nav-link" data-scroll-target="#configuring-imu-accelerometer">Configuring IMU Accelerometer</a></li>
   </ul></li>
-  <li><a href="#mcu-peripherals-programming-structure" id="toc-mcu-peripherals-programming-structure" class="nav-link" data-scroll-target="#mcu-peripherals-programming-structure">MCU Peripherals &amp; Programming Structure</a>
+  <li><a href="#stm34l432kc-mcu-peripherals-programming-structure" id="toc-stm34l432kc-mcu-peripherals-programming-structure" class="nav-link" data-scroll-target="#stm34l432kc-mcu-peripherals-programming-structure">STM34L432KC MCU Peripherals &amp; Programming Structure</a>
   <ul class="collapse">
-  <li><a href="#gpiox-xab" id="toc-gpiox-xab" class="nav-link" data-scroll-target="#gpiox-xab">GPIOx (x=A,B)</a></li>
+  <li><a href="#gpio" id="toc-gpio" class="nav-link" data-scroll-target="#gpio">GPIO</a></li>
   <li><a href="#i2c1-i2c3" id="toc-i2c1-i2c3" class="nav-link" data-scroll-target="#i2c1-i2c3">I2C1 &amp; I2C3</a>
   <ul class="collapse">
   <li><a href="#initialization" id="toc-initialization" class="nav-link" data-scroll-target="#initialization">Initialization</a></li>
@@ -151,12 +151,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#reading-with-i2c" id="toc-reading-with-i2c" class="nav-link" data-scroll-target="#reading-with-i2c">Reading With I2C</a></li>
   <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
   </ul></li>
-  </ul></li>
-  <li><a href="#output-states" id="toc-output-states" class="nav-link" data-scroll-target="#output-states">Output States</a>
+  <li><a href="#spi" id="toc-spi" class="nav-link" data-scroll-target="#spi">SPI</a>
   <ul class="collapse">
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#readwrite-with-spi" id="toc-readwrite-with-spi" class="nav-link" data-scroll-target="#readwrite-with-spi">Read/Write With SPI</a></li>
   <li><a href="#simulation-1" id="toc-simulation-1" class="nav-link" data-scroll-target="#simulation-1">Simulation</a></li>
   </ul></li>
-  <li><a href="#end-state" id="toc-end-state" class="nav-link" data-scroll-target="#end-state">End State</a></li>
+  </ul></li>
+  <li><a href="#game-logic" id="toc-game-logic" class="nav-link" data-scroll-target="#game-logic">Game Logic</a>
+  <ul class="collapse">
+  <li><a href="#reading-and-decoding" id="toc-reading-and-decoding" class="nav-link" data-scroll-target="#reading-and-decoding">Reading and Decoding</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -182,16 +187,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This project employs the <a href="https://www.st.com/en/evaluation-tools/nucleo-l432kc.html">STM32 Nucleo-32 board with an STM32L432KC MCU</a>, facilitating direct I2C communication with three <a href="https://www.adafruit.com/product/4692">LSM6DSO32</a> IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via 3 digital outputs. On this page, I am focusing on the software side of the MCU system.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/stm32.jpeg" class="img-fluid figure-img"></p>
-<figcaption>STM32 Nucleo-32 board with an STM32L432KC MCU</figcaption>
-</figure>
-</div>
+<p>The project employs the STM32 Nucleo-32 board with an STM32L432KC MCU, facilitating direct I2C communication with three LSM6DSO32 IMUs from AdaFruit. The received data is converted into helpful information for the FPGA, and the generated data is sent to the FPGA via SPI. On this page, I am focusing on the software side of this system. However, the schematic below will give insight into the hardware implementation of this software’s overall embedded system.</p>
 <section id="lsm6dso32-imus" class="level1">
 <h1>LSM6DSO32 IMUs</h1>
-<p>We selected these IMUs for their highly customizable accelerometer peripherals, I2C compatibility, and cost-effectiveness. In this project, the IMUs are mounted on the user’s shin, femur, and torso to measure angles. From these measurements, we also calculate the (X, Y) positions of the toe, heel, knee, hip, and head on a 2D plane. A subset of this data is then transmitted to the FPGA for further processing.</p>
+<p>We chose theme IMUs for their highly customizable accelerometer peripherals, I2C capabilities, and price. In this project, we take these IMUs, mount them to the shin, femur, and torso of the user, then decode the angles, and from that, we place the (X, Y) positions of the toe, heel, knee, hip, and head on a 2D plane, which is then sent to the FPGA to perform its duties.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/imu_front.jpeg" class="img-fluid figure-img"></p>
@@ -200,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="addressing-i2c" class="level2">
 <h2 class="anchored" data-anchor-id="addressing-i2c">Addressing (I2C)</h2>
-<p>To fully take advantage of I2C, we chain together multiple IMUs on one I2C communication bus. The chip address must be changed on one of the chips to alter the LSB of the address value. The figure below highlights what needed to be bridged to achieve this configuration.</p>
+<p>To fully take advantage of I2C and chain together multiple IMUs on one I2C communication bus, the chip address must be changed on one of the chips to alter the LSB of the address value. The figure below highlights what needed to be bridged.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/imu_back.jpeg" class="img-fluid figure-img"></p>
@@ -210,7 +209,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="configuring-imu-accelerometer" class="level2">
 <h2 class="anchored" data-anchor-id="configuring-imu-accelerometer">Configuring IMU Accelerometer</h2>
-<p>Configuration of the IMU accelerometer peripheral allows us to alter the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enabled LPF2 data filtering.</p>
+<p>Configuration of the IMU accelerometer peripheral allows us to configure the communication speed, resolution, range, and other data parameters we receive. For our use, the CTRL1_XL register was configured with an ODR at 104Hz (normal mode), +/- 8g range, and enable LPF2 data filtering.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/ctrl1_xl.jpeg" class="bordered img-fluid figure-img"></p>
@@ -220,29 +219,33 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 </section>
 </section>
-<section id="mcu-peripherals-programming-structure" class="level1">
-<h1>MCU Peripherals &amp; Programming Structure</h1>
-<p>As seen below in the block diagram, several key steps are involved in this process. First, all peripherals on the MCU were configured, as explained later, along with the CTRL1_XL register on each IMU. The angles of the ankle, knee, hip, and separately, the femur relative to the ground were decoded using simple trigonometry derived from the accelerometer axis magnitudes. Finally, a function was written to generate eight independent 3-bit states based on the femur’s angle relative to the ground, which were then output to the FPGA over digital I/O pins.</p>
+<section id="stm34l432kc-mcu-peripherals-programming-structure" class="level1">
+<h1>STM34L432KC MCU Peripherals &amp; Programming Structure</h1>
+<ul>
+<li>intro to what I will be talking about (talk about why using that funciton, and how it looks in code)</li>
+<li>also talk about the main coding structure diagram, with GAME LOGIC as a black box</li>
+<li>Talk about what peripherals I am going to talk about</li>
+</ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/code_structure1.jpeg" class="bordered img-fluid figure-img"></p>
+<p><img src="images/code_structure.jpeg" class="img-fluid figure-img"></p>
 <figcaption>General Code Block Diagram</figcaption>
 </figure>
 </div>
-<section id="gpiox-xab" class="level2">
-<h2 class="anchored" data-anchor-id="gpiox-xab">GPIOx (x=A,B)</h2>
-<p>The GPIO pins used correspond to the peripherals we are using (I2C1, I2C3, GPIOA, and GPIOB), which can be found in the <a href="https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf">STM32L432KC Datasheet</a> under Table 14. After ensuring that all communication lines do not overlap and that all pins required by all peripherals are accessible, the configuration of each pin must take place. More on this later.</p>
+<section id="gpio" class="level2">
+<h2 class="anchored" data-anchor-id="gpio">GPIO</h2>
+<p>The GPIO pins used correspond to the periphjerals we are using (I2C1, I2C3, and SPI1), can be found in the <a href="https://hmc-e155.github.io/assets/doc/ds11451-stm32l432kc.pdf">STM32L432KC Datasheet</a> under Table 14. After ensuring that all communication lines do not overlap, and that all pins requred by all peripherals were accessible, configuration of each pin must take place. More on this later.</p>
 </section>
 <section id="i2c1-i2c3" class="level2">
 <h2 class="anchored" data-anchor-id="i2c1-i2c3">I2C1 &amp; I2C3</h2>
-<p>I2C communication was used for this project for 2 reasons. As discussed in the Addressing (I2C) section above, I2C allows us to communicate with multiple chips on the same communication bus. This is a critical function for this implementation considering that we require 3 IMUs. Yet, our MCU only has 2 I2C peripherals, (I2C1 and I2C3). It is also noted that our IMUs only have 2 distinct configurable addresses, thus our I2C1 peripheral will communicate with the first 2 chips and I2C3 will communicate with the 3rd chip as seen in the MCU implementation circuit schematic above.</p>
+<p>I2C communication was used for this project for 2 reasons. As discussed in the addressing (I2C) section above, I2C allows us to communicate with multiple chips on the same communication bus. This is a critical function for this implementation considering that we require 3 IMUs. Yet, our MCU only has 2 I2C peripherals, (I2C1 and I2C3). It is also noted that because our IMUs only have 2 distinct configurable addresses, thus our I2C1 peripheral will communicate with the first 2 chips and I2C3 will communicate with the 3rd chip as seen in the data collection circuit schematic above.</p>
 <p>The implementation of I2C in general includes initialization, writing, and reading as explained below. Writing and reading will be used within initialization to configure and verify the proper function of the IMUs, while after such configuration is completed, our while loop will solely depend on the read function to gather data from all involved accelerometer registers in the accused IMU.</p>
 <section id="initialization" class="level3">
 <h3 class="anchored" data-anchor-id="initialization">Initialization</h3>
 <p>First, I2C peripherals data and clock lines were configured in alternate function mode. The OSPEEDR registers were configured for high-speed GPIO functionality, to ensure proper data capture. The respective AFR registers must also be configured to correspond to I2C communication lines. The I2C initialization functions also configure the RCC registers to enable the I2C clock line to get the 8MHz MSI system clock.</p>
-<p>Then comes the I2Cx (where x=1,3) configuration where bits and transmit interrupts are enabled. Configuration of the TIMINGR registers must also take place to ensure cohesive SCL speed between the MCU and IMUs, 100kHz standard mode was used for this project. As seen below in table 181, found in the <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">STM32L432KC Reference Manual</a>, all corresponding registers were configured to match that of the 100kHz standard mode.</p>
-<p><img src="images/table_181.jpeg" class="bordered img-fluid"></p>
-<p>After configuration, a WHO_AM_I register that holds a set known value exists in the IMU. Reading this register along with a brief check that the correct value is read, provides a gate for which the code can not pass unless I2C is functioning as expected. Allowing us to know if I2C communication is working correctly.</p>
+<p>Then comes the I2Cx (where x=1 or 3) configuration where bits and transmit interrupts are enabled. Configuration of the TIMINGR registers must also take place to ensure cohesive SCL speed between the MCU and IMUs, 100kHz standard mode was used for this project. As seen below in table 181, found in the <a href="https://hmc-e155.github.io/assets/doc/rm0394-stm32l41xxx42xxx43xxx44xxx45xxx46xxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">STM32L432KC Reference Manual</a>, all corresponding registers were configured to match that of the 100kHz standard mode.</p>
+<p><img src="images/table_181.jpeg" class="img-fluid"></p>
+<p>After configuration, there exists a WHO_AM_I register found in the IMU that holds a set, known value. Reading this function along with a brief check that the correct value is read, provides a gate for which the code can not pass unless I2C is functioning as expected.</p>
 </section>
 <section id="writing-with-i2c" class="level3">
 <h3 class="anchored" data-anchor-id="writing-with-i2c">Writing With I2C</h3>
@@ -257,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
 </p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/write_imu.jpeg" class="bordered img-fluid figure-img"></p>
+<p><img src="images/write_imu.jpeg" class="img-fluid figure-img"></p>
 <figcaption>LSM6DSO32 Example Master Write to Slave</figcaption>
 </figure>
 </div>
@@ -275,7 +278,7 @@ ul.task-list li input[type="checkbox"] {
 </p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/read_imu.jpeg" class="bordered img-fluid figure-img"></p>
+<p><img src="images/read_imu.jpeg" class="img-fluid figure-img"></p>
 <figcaption>LSM6DSO32 Example Master Read from Slave</figcaption>
 </figure>
 </div>
@@ -289,29 +292,39 @@ ul.task-list li input[type="checkbox"] {
 <figcaption>Example Read of WHO_AM_I Regsiter, and Configuration of CTRL1_XL IMU Register</figcaption>
 </figure>
 </div>
+</section>
+</section>
+<section id="spi" class="level2">
+<h2 class="anchored" data-anchor-id="spi">SPI</h2>
+<p>why am I using</p>
+<section id="configuration" class="level3">
+<h3 class="anchored" data-anchor-id="configuration">Configuration</h3>
+</section>
+<section id="readwrite-with-spi" class="level3">
+<h3 class="anchored" data-anchor-id="readwrite-with-spi">Read/Write With SPI</h3>
+<p>By nature with SPI, whenever you send data you receive some too</p>
+</section>
+<section id="simulation-1" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-1">Simulation</h3>
 <hr>
 </section>
 </section>
 </section>
-<section id="output-states" class="level1">
-<h1>Output States</h1>
-<p>A combination of 8 different output states via 3 digital output pins was used to communicate squat depth with the FPGA. Pins PA0, PB3, and PB5 were configured as output pins, and a simple function was written to output different states based on the value of the angle of the femur as compared to the parallel. This allows the character on the screen to reflect squat depth, and reach the bottom of the squat when the user’s quad is parallel with the ground.</p>
-<section id="simulation-1" class="level2">
-<h2 class="anchored" data-anchor-id="simulation-1">Simulation</h2>
-<p>The simulation below reflects the 3-pin analog output states as the femur IMU is rotated from verticle to 90 degrees, simulating a squat motion for that leg segment. As seen, there exist 8 clear states.</p>
+<section id="game-logic" class="level1">
+<h1>Game Logic</h1>
+<p>Sparing any conversation about the trig required to decode angles and positions, here is a sketch I drew up to help guide me when making this code. Basically, depending on the orientation of the specific IMU, and where it is worn on the body, specific accelerometer axes are used as the tangent sides of a right triangle, and the rest is trig. Special cases had to be written for when the parallel accelerometer axis fliped sign. I also wrote code to handle the case where verticle axis fliped sign, just in case the user decides to send a backflip or fall down. It is also important to note that all accelerometer data is referenced to gravity, thus any fast jumping or jults may cause undesired behavior. Future improvements may inlcude velocity or position integrations.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/debounced_outs.jpeg" class="img-fluid figure-img"></p>
-<figcaption>Analog Output Signals Throughout a Squat Motion</figcaption>
+<p><img src="images/guy_drawing.jpeg" class="bordered img-fluid figure-img"></p>
+<figcaption>Math and IMU Orientation to Decode Angles and (x,y) Positions for Nodes</figcaption>
 </figure>
 </div>
-</section>
-</section>
-<section id="end-state" class="level1">
-<h1>End State</h1>
-<p>This implementation successfully provided accurate readings and correctly outputs analog states derived from IMU data, effectively simulating the progress and status of a squat.</p>
+<section id="reading-and-decoding" class="level2">
+<h2 class="anchored" data-anchor-id="reading-and-decoding">Reading and Decoding</h2>
+<p>As seen in</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -397,8 +410,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -407,7 +418,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -509,7 +520,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
