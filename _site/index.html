@@ -133,8 +133,6 @@ ul.task-list li input[type="checkbox"] {
     
 <!-- main -->
 <div class="quarto-about-jolla">
-  <img src="images/logo.jpeg" class="about-image
-  round " style="height: 15em; width: 15em;">
  <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Squat Hero</h1>
@@ -142,6 +140,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
   </div>
 </header><main class="content" id="quarto-document-content">
+<p><img src="images/jk_squat.jpeg" class="img-fluid"></p>
 <p>Welcome to our final project for Micro Ps! A class at Harvey Mudd College focused on Microprocessor and FPGA design and application.</p>
 <p>This project focused on implementing MCU and FPGA functionalities to measure joint angles using IMUs and display a figure on a screen via VGA, providing insights into the user’s squat depth. Tracking body motion is a foundational step in developing many kinematic solutions and serves as the initial phase of a long-term project, further detailed in the Project Ideation tab.</p>
 
@@ -245,7 +244,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
