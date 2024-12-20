@@ -123,7 +123,7 @@
     "href": "hardware/index.html#dac-design",
     "title": "Hardware",
     "section": "DAC Design",
-    "text": "DAC Design\nThe FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range."
+    "text": "DAC Design\nThe FPGA outputs digital color information (4 bits per channel: red, green, blue) at a 3.3 V logic level. To meet the VGA standard, these must be translated into analog signals typically ranging from 0 V (black) to about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is used. By choosing resistor values in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input impedance of the VGA input as part of the output stage, we can generate the correct voltage range.\n\n\n\n\nDAC Board"
   },
   {
     "objectID": "inventors/index.html",
