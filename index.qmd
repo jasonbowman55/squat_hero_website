@@ -5,7 +5,7 @@ about:
     links:
     -   icon: person-circle
         text: Meet The Inventors!
-        href: /inventors/
+        href: /inventors/index.html
     -   icon: github
         text: GitHub
         href: https://github.com/KetAveryH/Squat-Hero.git

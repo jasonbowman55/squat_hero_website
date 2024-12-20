@@ -39,4 +39,6 @@ about 0.7 V (full brightness). To achieve this, a simple resistor-based DAC is u
 in a binary-weighted fashion (e.g., 500Ω, 1kΩ, 2kΩ, and 4kΩ for each bit), and by relying on the 75Ω input 
 impedance of the VGA input as part of the output stage, we can generate the correct voltage range.
 
-
+<div style="text-align: center;">
+![DAC Board](images/dac_design.jpg)
+</div>
