@@ -44,3 +44,4 @@ Joint Major in Computer Science and Mathematics at Harvey Mudd College (grad 25)
       🔗 LinkedIn
     </button>
   </a>
+</div>
