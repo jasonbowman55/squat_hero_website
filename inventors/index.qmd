@@ -22,7 +22,7 @@ Engineering major at Harvey Mudd College (grad 25), with experience in embedded 
       👤 Jason's Personal Website
     </button>
   </a>
-  <a href="https://drive.google.com/file/d/1mEfJgMeUG4NMKEZRTSkJOuq9oFlL1GmU/view?usp=sharing" target="_blank" style="text-decoration: none;">
+  <a href="https://drive.google.com/file/d/19213KDBQJlmCxcuwsBsXrRoW5R6eXiIx/view?usp=sharing" target="_blank" style="text-decoration: none;">
     <button style="margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer;">
       📄 Resume
     </button>

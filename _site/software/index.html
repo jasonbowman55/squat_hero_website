@@ -223,10 +223,10 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1742197605359" data-listing-reading-time-sort="6" data-listing-word-count-sort="1090">
+<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1742279288755" data-listing-reading-time-sort="6" data-listing-word-count-sort="1090">
 <div class="thumbnail">
 <p><a href="../software/mcu/index.html" class="no-external"></a></p><a href="../software/mcu/index.html" class="no-external">
-<p class="card-img-top"><img src="mcu/images/stm32.jpeg"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="mcu\images\stm32.jpeg"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../software/mcu/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -245,10 +245,10 @@ window.Quarto = {
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1742197605213" data-listing-reading-time-sort="4" data-listing-word-count-sort="789">
+<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1742279288646" data-listing-reading-time-sort="4" data-listing-word-count-sort="789">
 <div class="thumbnail">
 <p><a href="../software/fpga/index.html" class="no-external"></a></p><a href="../software/fpga/index.html" class="no-external">
-<p class="card-img-top"><img src="fpga/images/fpga.jpg"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img src="fpga\images\fpga.jpg"  class="thumbnail-image card-img"/></p>
 </a><p><a href="../software/fpga/index.html" class="no-external"></a></p>
 </div>
 <div class="body">
@@ -364,7 +364,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/jasonbowman55\.github\.io\/squat_hero_website\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
