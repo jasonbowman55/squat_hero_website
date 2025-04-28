@@ -151,6 +151,6 @@
     "href": "software/index.html",
     "title": "Software",
     "section": "",
-    "text": "This section outlines the software implamented using C and SystemVerilog on both the MCU andd FPGA respectively, used to implament this project. Data collection and game logic can be found in the MCU section, while the VGA implamentation will be in the FPGA section.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMCU Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFPGA Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "This section outlines the software implamented using C and SystemVerilog on both the MCU andd FPGA respectively, used to implament this project. Data collection and game logic can be found in the MCU section, while the VGA implamentation will be in the FPGA section.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMCU Design\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFPGA Design\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   }
 ]
